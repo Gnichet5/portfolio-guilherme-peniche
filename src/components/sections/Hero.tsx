@@ -81,7 +81,7 @@ const Hero = () => {
         >
           Desenvolvedor Full Stack especializado em{' '}
           <span className="text-indigo-600 font-medium">Soluções Inteligentes</span>,{' '}
-          IA e otimização de sistemas complexos
+          e otimização de sistemas complexos
         </motion.p>
 
         {/* CTA Buttons */}
