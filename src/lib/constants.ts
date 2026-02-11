@@ -35,7 +35,8 @@ export const projects: Project[] = [
     stack: ['Python', 'Scikit-learn', 'Optuna', 'Pandas', 'XGBoost', 'Matplotlib', 'Random Forest', 'SMOTE', 'LightGBM', 'FastAPI'],
     highlights: [
       'Otimização de hiperparâmetros com Optuna',
-      'Análise comparativa de métricas'
+      'Análise comparativa de métricas',
+      'implementação de API para detecção em tempo real'
     ],
     year: '2025',
     featured: true
