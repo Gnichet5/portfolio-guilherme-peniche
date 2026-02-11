@@ -23,7 +23,7 @@ export const projects: Project[] = [
       'Otimização de escalabilidade em processos industriais',
       'Algoritmos de DRL customizados'
     ],
-    year: '2024',
+    year: '2025',
     featured: true
   },
   {
@@ -38,7 +38,7 @@ export const projects: Project[] = [
       'Acurácia superior a 95%',
       'Pipeline automatizado de feature engineering'
     ],
-    year: '2024',
+    year: '2025',
     featured: true
   },
   
@@ -54,7 +54,7 @@ export const projects: Project[] = [
       'Comunicação em tempo real via WebSocket',
       'Interface responsiva para monitoramento'
     ],
-    year: '2023'
+    year: '2025'
   },
   {
     id: 'seismic',
@@ -68,7 +68,7 @@ export const projects: Project[] = [
       'Pipeline automatizado de análise',
       'Visualização de dados geoespaciais'
     ],
-    year: '2023'
+    year: '2024'
   },
   {
     id: 'condominio',
