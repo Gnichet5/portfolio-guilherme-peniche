@@ -36,7 +36,7 @@ const Hero = () => {
     // CORREÇÃO 1: Mudei overflow-hidden para overflow-x-hidden (permite scroll vertical se precisar)
     // CORREÇÃO 2: Adicionei 'pt-32' para dar espaço ao Header no topo em telas mobile
     // CORREÇÃO 3: min-h-[100dvh] lida melhor com mobile browsers
-    <section className="relative min-h-[100dvh] flex flex-col justify-center items-center overflow-x-hidden bg-gradient-to-b from-white via-neutral-50 to-neutral-100 pt-32 pb-20 md:pt-0 md:pb-0">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center items-center overflow-x-hidden bg-gradient-to-b from-white via-neutral-50 to-neutral-100 pt-20 pb-16 md:pt-0 md:pb-0">
       
       {/* Background 3D */}
       <div className="absolute inset-0 -z-10 h-full w-full">
@@ -51,7 +51,7 @@ const Hero = () => {
         animate="visible"
       >
         {/* Status Badge */}
-        <motion.div variants={itemVariants} className="mb-12 flex justify-center">
+        <motion.div variants={itemVariants} className="mb-14 flex justify-center">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-neutral-300 bg-white/80 backdrop-blur-sm text-xs md:text-sm font-medium text-neutral-700 shadow-sm whitespace-normal text-center">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shrink-0" />
             Buscando oportunidades como Desenvolvedor
@@ -77,7 +77,7 @@ const Hero = () => {
 
         <motion.p
           variants={itemVariants}
-          className="text-base md:text-xl text-neutral-500 mb-8 md:mb-12 max-w-2xl mx-auto px-4"
+          className="text-base md:text-xl text-neutral-500 mb-4 md:mb-4 max-w-2xl mx-auto px-4"
         >
           Desenvolvedor Full Stack especializado em{' '}
           <span className="text-indigo-600 font-medium">Soluções Inteligentes</span>{' '}
@@ -87,7 +87,7 @@ const Hero = () => {
         {/* CTA Buttons */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 md:mb-16 w-full max-w-md mx-auto sm:max-w-none"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6 md:mb-10 w-full max-w-md mx-auto sm:max-w-none"
         >
           <a
             href="#projects"
@@ -108,7 +108,7 @@ const Hero = () => {
         {/* Social Links */}
         <motion.div
           variants={itemVariants}
-          className="flex gap-4 justify-center mb-12"
+          className="flex gap-4 justify-center mb-6 mt-2"
         >
           <a
             href="mailto:Guipeniche@hotmail.com"
@@ -147,8 +147,8 @@ const Hero = () => {
             'Next.js',
             'Python',
             'Machine Learning',
-            'PostgreSQL',
             'Vue.js',
+            'SQL',
             'Java',
             'PHP','C', 'JavaScript'
 
@@ -175,7 +175,8 @@ const Hero = () => {
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 text-neutral-400"
         >
-          <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
+  <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
+       
           <div className="w-6 h-10 border-2 border-neutral-300 rounded-full flex justify-center pt-2">
             <motion.div
               className="w-1.5 h-1.5 bg-neutral-400 rounded-full"
