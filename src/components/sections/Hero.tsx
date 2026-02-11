@@ -80,7 +80,7 @@ const Hero = () => {
           className="text-base md:text-xl text-neutral-500 mb-8 md:mb-12 max-w-2xl mx-auto px-4"
         >
           Desenvolvedor Full Stack especializado em{' '}
-          <span className="text-indigo-600 font-medium">Soluções Inteligentes</span>,{' '}
+          <span className="text-indigo-600 font-medium">Soluções Inteligentes</span>{' '}
           e otimização de sistemas complexos
         </motion.p>
 
