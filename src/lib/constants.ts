@@ -19,8 +19,8 @@ export const projects: Project[] = [
     problem: 'Necessidade de otimizar escalabilidade e eficiência em processos industriais complexos com variáveis estocásticas.',
     stack: ['Python', 'TensorFlow', 'Gym', 'NumPy', 'Pandas'],
     highlights: [
-      'Artigo premiado em conferência acadêmica',
-      'Otimização de escalabilidade em processos industriais',
+      'Construção de ambiente para desenvolvimento de artigo premiado',
+      'Otimização em processos de agentes DRL',
       'Algoritmos de DRL customizados'
     ],
     year: '2025',
@@ -35,8 +35,7 @@ export const projects: Project[] = [
     stack: ['Python', 'Scikit-learn', 'Optuna', 'Pandas', 'XGBoost', 'Matplotlib', 'Random Forest', 'SMOTE', 'LightGBM', 'FastAPI'],
     highlights: [
       'Otimização de hiperparâmetros com Optuna',
-      'Acurácia superior a 95%',
-      'Pipeline automatizado de feature engineering'
+      'Análise comparativa de métricas'
     ],
     year: '2025',
     featured: true
@@ -65,7 +64,7 @@ export const projects: Project[] = [
     stack: ['Python', 'NumPy', 'SciPy', 'Matplotlib', 'Pandas'],
     highlights: [
       'Modelagem com distribuição de Poisson',
-      'Pipeline automatizado de análise',
+        'Análise de risco sísmico',
       'Visualização de dados geoespaciais'
     ],
     year: '2024'
@@ -84,19 +83,19 @@ export const projects: Project[] = [
     ],
     year: '2023'
   },
-  {
+{
     id: 'serin',
     title: 'SERIN - Experiência Profissional',
     category: 'Full Stack Development',
-    description: 'Desenvolvimento e manutenção de sistemas empresariais com foco em performance e otimização de consultas SQL.',
-    problem: 'Manutenção e correção do sistema interno da secretária, implementação de novas features e inserção de novos dados para processos estratégicos.',
+    description: 'Desenvolvimento e manutenção do sistema da Secretaria de Relações Institucionais da Bahia.',
+    problem: 'Manutenção e correção do sistema interno da Secretaria, implementação de novas features e otimização de processos estratégicos.',
     stack: ['Vue.js', 'PostgreSQL', 'PHP', 'Laravel', 'Git'],
     highlights: [
-      'Modelagem no banco de dados',  
-      'Consultas para desenvolvimento de relatórios a nível múnicipal ou estadual',
-      'Correção de bugs em produção',
-      'Construção de Módulos para coordenadorias',
-      'Análise de requisitos e implementação de features',
+      'Modelagem de banco de dados', 
+      'Desenvolvimento de relatórios a nível municipal e estadual', 
+      'Correção de bugs críticos em produção', 
+      'Construção de módulos para coordenadorias',
+      'Análise de requisitos e implementação de novas funcionalidades',
     ],
     year: '2025-2026'
   }
