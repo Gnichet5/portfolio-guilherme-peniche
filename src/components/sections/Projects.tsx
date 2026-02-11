@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import ProjectCard from '@/components/ui/ProjectCard'
 import { projects } from '@/lib/constants'
 import { Briefcase } from 'lucide-react'
-
+import { ExternalLink } from 'lucide-react'
 export default function Projects() {
   // Separar projetos acadêmicos da experiência profissional
   const academicProjects = projects.filter(p => p.id !== 'serin')
@@ -49,6 +49,24 @@ export default function Projects() {
             ))}
           </div>
         </div>
+        {/* Botão Ver Mais (Opcional) */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-16 text-center"
+        >
+          <a
+            href="https://github.com/Gnichet5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-neutral-300 text-neutral-700 rounded-lg font-medium hover:bg-neutral-50 hover:border-neutral-400 transition-all"
+          >
+            Ver todos no GitHub
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </motion.div>
       </section>
 
       {/* Experiência Profissional */}

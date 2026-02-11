@@ -50,31 +50,35 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mb-16">
           
           {/* Bio Text */}
-          <motion.div
+        <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="space-y-6 flex flex-col justify-center"
           >
-            <p className="text-lg text-neutral-700 leading-relaxed">
+            {/* Adicionei 'text-justify' aqui */}
+            <p className="text-lg text-neutral-700 leading-relaxed text-justify">
               Sou <span className="font-semibold text-neutral-900">recém-formado em Ciência da Computação pela UNIJORGE</span> e 
               venho construindo minha trajetória com foco em desenvolvimento de software e soluções inteligentes.
             </p>
 
-            <p className="text-base text-neutral-600 leading-relaxed">
+            {/* Adicionei 'text-justify' aqui */}
+            <p className="text-base text-neutral-600 leading-relaxed text-justify">
               Ao longo da graduação, participei de <strong>projetos práticos</strong> que uniram hardware, software e 
               análise de dados, desde sistemas embarcados com ESP32 para monitoramento ambiental até aplicações web 
               em Laravel, React e Inertia.js voltadas à automação de processos.
             </p>
 
-            <p className="text-base text-neutral-600 leading-relaxed">
+            {/* Adicionei 'text-justify' aqui */}
+            <p className="text-base text-neutral-600 leading-relaxed text-justify">
               Também desenvolvi <strong>pesquisas aplicadas em machine learning</strong>, com destaque para minha pesquisa
               "Optimization of code for scalability of deep reinforcement learning agents in slow and stochastic industrial process patterns",
               que investiga o impacto das técnicas de otimização de código na escalabilidade e no tempo de treinamento de agentes de aprendizado por reforço profundo (DRL).
             </p>
 
-            <p className="text-base text-neutral-600 leading-relaxed">
+            {/* Adicionei 'text-justify' aqui */}
+            <p className="text-base text-neutral-600 leading-relaxed text-justify">
               Acredito que posso <strong>contribuir trazendo uma visão analítica aliada à prática de desenvolvimento</strong>, 
               buscando sempre soluções eficientes, bem estruturadas e com impacto real. Tenho facilidade em aprender 
               novas tecnologias e trabalhar em equipe.
@@ -120,7 +124,7 @@ export default function About() {
                   
                   <div className="h-px bg-neutral-600 w-full my-6" />
                   
-                  <p className="text-base font-bold text-neutral-400 leading-relaxed">
+                  <p className="text-base font-bold text-neutral-400 leading-relaxed text-justify" >
                     Desenvolvedor Full Stack em formação com paixão por criar soluções que fazem diferença.
                     Procurando oportunidades para aplicar conhecimentos, aprender e crescer na carreira de desenvolvimento de software.
                   </p>
