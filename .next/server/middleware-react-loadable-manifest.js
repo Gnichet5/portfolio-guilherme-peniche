@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"components\\\\sections\\\\Hero.tsx -> ../canvas/GeometricBackground\":{\"id\":\"components\\\\sections\\\\Hero.tsx -> ../canvas/GeometricBackground\",\"files\":[\"static/chunks/_app-pages-browser_src_components_canvas_GeometricBackground_tsx.js\"]}}"
