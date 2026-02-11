@@ -91,24 +91,7 @@ export default function Projects() {
             ))}
           </motion.div>
 
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-16 text-center"
-          >
-            <p className="text-neutral-600 mb-6">
-              Gostou do meu trabalho? Vamos conversar sobre como posso contribuir com sua equipe!
-            </p>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white rounded-lg font-medium hover:bg-neutral-800 transition-all hover:shadow-lg"
-            >
-              Entre em Contato
-            </a>
-          </motion.div>
+
         </div>
       </section>
     </>

@@ -150,7 +150,8 @@ const Hero = () => {
             'PostgreSQL',
             'Vue.js',
             'Java',
-            'Deep Learning'
+            'PHP','C', 'JavaScript'
+
           ].map((skill) => (
             <span
               key={skill}

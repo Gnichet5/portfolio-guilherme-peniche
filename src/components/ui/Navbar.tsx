@@ -85,11 +85,11 @@ export default function Navbar() {
               onClick={(e) => handleLinkClick(e, '#')}
               className="text-xl md:text-2xl font-bold text-neutral-900 hover:text-indigo-600 transition-colors cursor-pointer"
             >
-              Portifólio<span className="text-indigo-600">.</span>
+              GP<span className="text-indigo-600">.</span>
             </a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               {navLinks.map((link) => {
                 const isActive =
                   link.href === '#'

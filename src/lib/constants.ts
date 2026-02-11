@@ -32,7 +32,7 @@ export const projects: Project[] = [
     category: 'Data Science & Security',
     description: 'Sistema inteligente de detecção de fraudes em transações de cartão de crédito usando Machine Learning.',
     problem: 'Identificar padrões fraudulentos em tempo real com alta precisão e baixa taxa de falsos positivos.',
-    stack: ['Python', 'Scikit-learn', 'Optuna', 'Pandas', 'XGBoost', 'Matplotlib', 'Random Forest', 'SMOTE', 'LightGBM'],
+    stack: ['Python', 'Scikit-learn', 'Optuna', 'Pandas', 'XGBoost', 'Matplotlib', 'Random Forest', 'SMOTE', 'LightGBM', 'FastAPI'],
     highlights: [
       'Otimização de hiperparâmetros com Optuna',
       'Acurácia superior a 95%',

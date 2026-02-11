@@ -46,6 +46,7 @@ export default function About() {
             Desenvolvedor em Formação
           </h2>
         </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mb-16">
           
           {/* Bio Text */}
@@ -80,14 +81,14 @@ export default function About() {
             </p>
           </motion.div>
 
-          {/* Card da Direita - CINZA CHUMBO (Dark Gray) */}
+          {/* Card da Direita - AGORA ESCONDIDO NO MOBILE */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            // MUDANÇA AQUI: bg-neutral-800 (Cinza Chumbo) e border-neutral-700
-            className="relative h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl bg-neutral-800 border border-neutral-700"
+            // MUDANÇA AQUI: Adicionei 'hidden lg:block' no início da className
+            className="hidden lg:block relative h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl bg-neutral-800 border border-neutral-700"
           >
             
             {/* Content */}
@@ -104,7 +105,6 @@ export default function About() {
                     <h3 className="text-xl font-bold text-neutral-400 tracking-wider uppercase">
                       Sobre Mim
                     </h3>
-                     {/* Ícone com fundo um pouco mais claro que o card */}
                      <div className="w-10 h-10 rounded-full border border-neutral-600 flex items-center justify-center bg-neutral-700">
                         <Code2 className="text-white w-5 h-5" />
                      </div>
@@ -118,14 +118,11 @@ export default function About() {
                     Cientista da Computação • UNIJORGE
                   </p>
                   
-                  {/* Linha divisória sutil */}
                   <div className="h-px bg-neutral-600 w-full my-6" />
                   
                   <p className="text-base font-bold text-neutral-400 leading-relaxed">
                     Desenvolvedor Full Stack em formação com paixão por criar soluções que fazem diferença.
                     Procurando oportunidades para aplicar conhecimentos, aprender e crescer na carreira de desenvolvimento de software.
-
-          
                   </p>
                 </div>
               </motion.div>

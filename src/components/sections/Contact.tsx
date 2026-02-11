@@ -52,7 +52,6 @@ export default function Contact() {
           
           <p className="text-lg md:text-xl text-neutral-600 leading-relaxed">
             Estou aberto a oportunidades de desenvolvimento, colaborações e projetos desafiadores. 
-            Vamos construir algo incrível juntos!
           </p>
         </motion.div>
 
