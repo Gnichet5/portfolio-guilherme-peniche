@@ -51,7 +51,7 @@ const Hero = () => {
         animate="visible"
       >
         {/* Status Badge */}
-        <motion.div variants={itemVariants} className="mb-8 flex justify-center">
+        <motion.div variants={itemVariants} className="mb-12 flex justify-center">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-neutral-300 bg-white/80 backdrop-blur-sm text-xs md:text-sm font-medium text-neutral-700 shadow-sm whitespace-normal text-center">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shrink-0" />
             Buscando oportunidades como Desenvolvedor
