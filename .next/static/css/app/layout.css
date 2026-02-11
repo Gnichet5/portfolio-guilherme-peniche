@@ -641,6 +641,9 @@ video {
 .top-1\/2 {
   top: 50%;
 }
+.bottom-6 {
+  bottom: 1.5rem;
+}
 .-z-10 {
   z-index: -10;
 }
@@ -779,6 +782,9 @@ video {
 .min-h-\[400px\] {
   min-height: 400px;
 }
+.min-h-\[100dvh\] {
+  min-height: 100dvh;
+}
 .w-1\.5 {
   width: 0.375rem;
 }
@@ -834,10 +840,16 @@ video {
 .max-w-sm {
   max-width: 24rem;
 }
+.max-w-md {
+  max-width: 28rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
 .flex-shrink-0 {
+  flex-shrink: 0;
+}
+.shrink-0 {
   flex-shrink: 0;
 }
 .-translate-x-1\/2 {
@@ -988,8 +1000,17 @@ video {
 .overflow-hidden {
   overflow: hidden;
 }
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
 .scroll-smooth {
   scroll-behavior: smooth;
+}
+.whitespace-normal {
+  white-space: normal;
+}
+.break-words {
+  overflow-wrap: break-word;
 }
 .rounded-2xl {
   border-radius: 1rem;
@@ -1108,6 +1129,9 @@ video {
 .bg-neutral-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(82 82 82 / var(--tw-bg-opacity, 1));
+}
+.bg-white\/50 {
+  background-color: rgb(255 255 255 / 0.5);
 }
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
@@ -1286,11 +1310,21 @@ video {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 .pt-2 {
   padding-top: 0.5rem;
 }
 .pt-12 {
   padding-top: 3rem;
+}
+.pb-20 {
+  padding-bottom: 5rem;
+}
+.pt-32 {
+  padding-top: 8rem;
 }
 .text-left {
   text-align: left;
@@ -1748,8 +1782,21 @@ video {
 
 @media (min-width: 640px) {
 
+  .sm\:w-auto {
+    width: auto;
+  }
+
+  .sm\:max-w-none {
+    max-width: none;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
+  }
+
+  .sm\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
   }
 }
 
@@ -1757,6 +1804,18 @@ video {
 
   .md\:left-10 {
     left: 2.5rem;
+  }
+
+  .md\:mb-12 {
+    margin-bottom: 3rem;
+  }
+
+  .md\:mb-16 {
+    margin-bottom: 4rem;
+  }
+
+  .md\:block {
+    display: block;
   }
 
   .md\:flex {
@@ -1810,6 +1869,24 @@ video {
     padding-bottom: 8rem;
   }
 
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .md\:pb-0 {
+    padding-bottom: 0px;
+  }
+
+  .md\:pt-0 {
+    padding-top: 0px;
+  }
+
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -1843,6 +1920,11 @@ video {
   .md\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 
