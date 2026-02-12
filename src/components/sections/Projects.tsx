@@ -33,8 +33,7 @@ export default function Projects() {
             </h2>
             
             <p className="text-lg md:text-xl text-neutral-600 leading-relaxed">
-              Projetos desenvolvidos ao longo da graduação combinando ciência de dados, 
-              inteligência artificial e engenharia de software para resolver problemas complexos.
+              Projetos desenvolvidos ao longo da graduação.
             </p>
           </motion.div>
 

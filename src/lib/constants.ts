@@ -8,6 +8,7 @@ export interface Project {
   highlights: string[]
   year: string
   featured?: boolean
+  githubUrl?: string // Adicionei este campo opcional
 }
 
 export const projects: Project[] = [
@@ -24,7 +25,8 @@ export const projects: Project[] = [
       'Algoritmos de DRL customizados'
     ],
     year: '2025',
-    featured: true
+    featured: true,
+    githubUrl: 'https://github.com/Gnichet5/SIINTEC'
   },
   {
     id: 'tcc',
@@ -39,9 +41,9 @@ export const projects: Project[] = [
       'implementação de API para detecção em tempo real'
     ],
     year: '2025',
-    featured: true
+    featured: true,
+    githubUrl: 'https://github.com/Gnichet5/Produto-TCC'
   },
-  
   {
     id: 'sicsae',
     title: 'SICSAE - Controle de Vazão IoT',
@@ -54,7 +56,8 @@ export const projects: Project[] = [
       'Comunicação em tempo real via WebSocket',
       'Interface responsiva para monitoramento'
     ],
-    year: '2025'
+    year: '2025',
+    githubUrl: 'https://github.com/Gnichet5/SICSAE'
   },
   {
     id: 'seismic',
@@ -68,7 +71,8 @@ export const projects: Project[] = [
         'Análise de risco sísmico',
       'Visualização de dados geoespaciais'
     ],
-    year: '2024'
+    year: '2024',
+    githubUrl: 'https://github.com/Gnichet5/Sistema-para-previsao-de-eventos-sismicos'
   },
   {
     id: 'condominio',
@@ -82,9 +86,10 @@ export const projects: Project[] = [
       'Gestão de ocorrências em tempo real',
       'Dashboard administrativo completo'
     ],
-    year: '2023'
+    year: '2023',
+    githubUrl: 'https://github.com/vlKoda/Kodominio-Front'
   },
-{
+  {
     id: 'serin',
     title: 'SERIN - Experiência Profissional',
     category: 'Full Stack Development',
@@ -99,9 +104,11 @@ export const projects: Project[] = [
       'Análise de requisitos e implementação de novas funcionalidades',
     ],
     year: '2025-2026'
+    // Não adicionei githubUrl aqui pois é um projeto profissional privado
   }
 ]
 
+// ... (Mantenha o skillsData como estava)
 export interface SkillCategory {
   title: string
   skills: string[]

@@ -16,11 +16,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white border border-neutral-200 rounded-2xl p-8 hover:border-neutral-300 hover:shadow-xl transition-all duration-300"
+      className="group relative bg-white border border-neutral-200 rounded-2xl p-8 hover:border-neutral-300 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
       {/* Featured Badge */}
       {project.featured && (
-        <div className="absolute -top-3 -right-3 flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-full shadow-lg">
+        <div className="absolute -top-3 -right-3 flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-full shadow-lg z-10">
           <Award className="w-3 h-3" />
           Destaque
         </div>
@@ -45,46 +45,63 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           <p className="text-sm text-neutral-500">{project.year}</p>
         </div>
 
-        <motion.div
-          className="p-2 bg-neutral-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          whileHover={{ scale: 1.1, rotate: 45 }}
-        >
-          <ArrowUpRight className="w-5 h-5 text-neutral-600" />
-        </motion.div>
+        {/* --- AQUI ESTÁ A MUDANÇA --- */}
+        {project.githubUrl ? (
+          <motion.a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-neutral-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-20"
+            whileHover={{ scale: 1.1, rotate: 45 }}
+            title="Ver repositório no GitHub"
+          >
+            <ArrowUpRight className="w-5 h-5 text-neutral-600 hover:text-indigo-600" />
+          </motion.a>
+        ) : (
+          /* Se não tiver link, mantém apenas o visual (opcional) */
+          <motion.div
+            className="p-2 bg-neutral-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            whileHover={{ scale: 1.1, rotate: 45 }}
+          >
+            <ArrowUpRight className="w-5 h-5 text-neutral-400" />
+          </motion.div>
+        )}
       </div>
 
       {/* Description */}
-      <p className="text-neutral-700 mb-6 leading-relaxed">
-        {project.description}
-      </p>
-
-      {/* Problem Solved */}
-      <div className="mb-6 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
-        <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
-          Problema Resolvido
-        </h4>
-        <p className="text-sm text-neutral-700 leading-relaxed">
-          {project.problem}
+      <div className="flex-grow">
+        <p className="text-neutral-700 mb-6 leading-relaxed">
+          {project.description}
         </p>
+
+        {/* Problem Solved */}
+        <div className="mb-6 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+          <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
+            Problema Resolvido
+          </h4>
+          <p className="text-sm text-neutral-700 leading-relaxed">
+            {project.problem}
+          </p>
+        </div>
+
+        {/* Highlights */}
+        <div className="mb-6">
+          <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
+            Destaques
+          </h4>
+          <ul className="space-y-2">
+            {project.highlights.map((highlight, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-neutral-700">
+                <span className="mt-1.5 w-1.5 h-1.5 bg-indigo-600 rounded-full flex-shrink-0" />
+                {highlight}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {/* Highlights */}
-      <div className="mb-6">
-        <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
-          Destaques
-        </h4>
-        <ul className="space-y-2">
-          {project.highlights.map((highlight, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-neutral-700">
-              <span className="mt-1.5 w-1.5 h-1.5 bg-indigo-600 rounded-full flex-shrink-0" />
-              {highlight}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Tech Stack */}
-      <div>
+      {/* Tech Stack - Fica sempre no rodapé do card */}
+      <div className="mt-auto pt-6 border-t border-neutral-100">
         <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
           Stack Tecnológica
         </h4>
