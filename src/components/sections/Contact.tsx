@@ -1,9 +1,87 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Mail, Linkedin, Github, MapPin, Send } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, XCircle, Loader2 } from 'lucide-react'
+import { useState } from 'react'
+
+function Toast({ message, type, onClose }: { 
+  message: string; 
+  type: 'success' | 'error'; 
+  onClose: () => void 
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl border ${
+        type === 'success' 
+          ? 'bg-green-50 border-green-200 text-green-800' 
+          : 'bg-red-50 border-red-200 text-red-800'
+      }`}
+    >
+      {type === 'success' ? (
+        <CheckCircle className="w-5 h-5 text-green-600" />
+      ) : (
+        <XCircle className="w-5 h-5 text-red-600" />
+      )}
+      <p className="font-medium">{message}</p>
+      <button onClick={onClose} className="ml-4 hover:opacity-70 transition-opacity">✕</button>
+    </motion.div>
+  )
+}
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false) // Novo estado para sucesso
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setIsSuccess(false) // Reseta sucesso ao tentar enviar novamente
+
+    const form = e.currentTarget // Salva referência do form
+    const formData = new FormData(form)
+    
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+      honeypot: formData.get('honeypot')
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setToast({ message: result.message, type: 'success' })
+        setIsSuccess(true) // Ativa estado de sucesso
+        form.reset() // Limpa formulário usando a referência salva
+        
+        setTimeout(() => {
+            setToast(null)
+            setIsSuccess(false) // Reseta botão após 5s
+        }, 5000)
+      } else {
+        setToast({ message: result.error, type: 'error' })
+        setTimeout(() => setToast(null), 5000)
+      }
+    } catch (error) {
+      setToast({ message: 'Erro de conexão. Tente novamente.', type: 'error' })
+      setTimeout(() => setToast(null), 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const socialLinks = [
     {
       icon: Mail,
@@ -37,8 +115,13 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative py-20 md:py-32 bg-gradient-to-b from-white to-neutral-50">
+      <AnimatePresence>
+        {toast && (
+          <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+        )}
+      </AnimatePresence>
+
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +138,6 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        {/* Content Grid - Adicionado items-start para alinhar ao topo */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           
           {/* LADO ESQUERDO: Contact Info */}
@@ -64,17 +146,17 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-8" // Reduzi um pouco o espaçamento aqui também (de 8 para 6)
+            className="space-y-8"
           >
             <div>
-            <h3 className="text-2xl font-bold text-neutral-900 mb-6 text-center">
-              Informações de Contato
-            </h3>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-6 text-center">
+                Informações de Contato
+              </h3>
               
               <div className="space-y-4">
                 {socialLinks.map((link, index) => {
                   const Icon = link.icon
-                  
+
                   return (
                     <motion.div
                       key={link.label}
@@ -84,7 +166,7 @@ export default function Contact() {
                       transition={{ duration: 0.4, delay: index * 0.1 }}
                     >
                       {link.href ? (
-                        <a
+                        <a 
                           href={link.href}
                           target={link.href.startsWith('http') ? '_blank' : undefined}
                           rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -141,23 +223,27 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* LADO DIREITO: Contact Form (COMPACTADO) */}
+          {/* LADO DIREITO: Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white border border-neutral-200 rounded-2xl p-6 shadow-sm" // Mudança: p-8 para p-6
+            className="bg-white border border-neutral-200 rounded-2xl p-6 shadow-sm"
           >
             <h3 className="text-2xl font-bold text-neutral-900 mb-6">
               Envie uma Mensagem
             </h3>
 
-            <form 
-              action="https://formspree.io/f/mojnjyld" 
-              method="POST" 
-              className="space-y-5" // Mudança: space-y-6 para space-y-4
-            >
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <input
+                type="text"
+                name="honeypot"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">
                   Nome
@@ -166,9 +252,10 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" // Mudança: py-3 para py-2
-                  placeholder="Seu nome completo"
                   required
+                  disabled={isSubmitting || isSuccess}
+                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Seu nome completo"
                 />
               </div>
 
@@ -180,9 +267,10 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" // Mudança: py-3 para py-2
-                  placeholder="seu.email@exemplo.com"
                   required
+                  disabled={isSubmitting || isSuccess}
+                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="seu.email@exemplo.com"
                 />
               </div>
 
@@ -194,9 +282,10 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
-                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" // Mudança: py-3 para py-2
-                  placeholder="Sobre o que você gostaria de conversar?"
                   required
+                  disabled={isSubmitting || isSuccess}
+                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Sobre o que você gostaria de conversar?"
                 />
               </div>
 
@@ -207,21 +296,40 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows={4} // Mudança: rows={5} para rows={3}
-                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none" // Mudança: py-3 para py-2
-                  placeholder="Escreva sua mensagem aqui..."
+                  rows={4}
                   required
+                  disabled={isSubmitting || isSuccess}
+                  className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Escreva sua mensagem aqui..."
                 />
               </div>
 
-<button
-  type="submit"
-  // Mudei 'w-full' para 'w-fit mx-auto'
-  className="group w-fit mx-auto flex items-center justify-center gap-2 px-8 py-3 bg-neutral-900 text-white rounded-lg font-medium hover:bg-neutral-800 transition-all hover:shadow-lg mt-2"
->
-  Enviar Mensagem
-  <Send className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-</button>
+              <button
+                type="submit"
+                disabled={isSubmitting || isSuccess}
+                className={`group w-fit mx-auto flex items-center justify-center gap-2 px-8 py-3 rounded-lg font-medium transition-all shadow-sm hover:shadow-lg mt-2 disabled:cursor-not-allowed ${
+                  isSuccess 
+                    ? 'bg-green-600 text-white hover:bg-green-700' 
+                    : 'bg-neutral-900 text-white hover:bg-neutral-800'
+                }`}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Enviando...
+                  </>
+                ) : isSuccess ? (
+                  <>
+                    Mensagem Enviada!
+                    <CheckCircle className="w-4 h-4" />
+                  </>
+                ) : (
+                  <>
+                    Enviar Mensagem
+                    <Send className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </>
+                )}
+              </button>
             </form>
 
             <p className="mt-4 text-xs text-neutral-500 text-center">

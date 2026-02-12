@@ -126,7 +126,7 @@ export default function Navbar() {
               onClick={(e) => handleLinkClick(e, '#contact')}
               className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 bg-neutral-900 text-white text-sm font-medium rounded-lg hover:bg-neutral-800 transition-all hover:shadow-lg cursor-pointer"
             >
-              Contratar
+              Contatar
             </a>
 
             {/* Mobile Menu Button */}
