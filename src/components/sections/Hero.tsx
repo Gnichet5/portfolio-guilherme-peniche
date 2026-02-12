@@ -175,11 +175,10 @@ const Hero = () => {
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 text-neutral-400"
         >
-  <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
-       
-          <div className="w-6 h-10 border-2 border-neutral-300 rounded-full flex justify-center pt-2">
+          <span className="text-xs font-bold tracking-wider uppercase">Scroll</span>     
+          <div className="w-6 h-10 border-2 border-neutral-900 rounded-full flex justify-center pt-2">
             <motion.div
-              className="w-1.5 h-1.5 bg-neutral-400 rounded-full"
+              className="w-1.5 h-1.5 bg-neutral-900 rounded-full"
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             />
