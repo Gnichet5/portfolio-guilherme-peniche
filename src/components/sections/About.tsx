@@ -106,7 +106,7 @@ export default function About() {
                 className="relative z-10"
               >
                 <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-xl font-bold text-neutral-400 tracking-wider uppercase">
+                    <h3 className="text-xl font-bold text-white tracking-wider uppercase">
                       Sobre Mim
                     </h3>
                      <div className="w-10 h-10 rounded-full border border-neutral-600 flex items-center justify-center bg-neutral-700">
@@ -114,17 +114,18 @@ export default function About() {
                      </div>
                 </div>
                 
-                <div className="space-y-4 text-white">
-                  <p className="text-3xl md:text-4xl font-bold text-neutral-400">
-                    Guilherme Peniche Cordeiro
-                  </p>
-                  <p className="text-xl font-bold text-neutral-400 text-lg font-medium">
-                    Cientista da Computação • UNIJORGE
-                  </p>
-                  
+<div className="space-y-4 text-white">
+      <p className="text-3xl md:text-4xl font-bold">
+        Guilherme Peniche Cordeiro
+      </p>
+      {/* Removido text-neutral-400 daqui também */}
+      <p className="text-xl font-bold text-lg font-medium">
+        Cientista da Computação • UNIJORGE
+      </p>
+
                   <div className="h-px bg-neutral-600 w-full my-6" />
                   
-                  <p className="text-base font-bold text-neutral-400 leading-relaxed text-justify" >
+                  <p className="text-base font-bold text-white leading-relaxed text-justify" >
                     Desenvolvedor Full Stack em formação com paixão por criar soluções que fazem diferença.
                     Procurando oportunidades para aplicar conhecimentos, aprender e crescer na carreira de desenvolvimento de software.
                   </p>
