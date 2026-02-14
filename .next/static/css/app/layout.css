@@ -1730,6 +1730,11 @@ video {
 
 @media (min-width: 768px) {
 
+  .md\:mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
   .md\:mb-10 {
     margin-bottom: 2.5rem;
   }
@@ -1805,6 +1810,10 @@ video {
 
   .md\:pt-0 {
     padding-top: 0px;
+  }
+
+  .md\:text-left {
+    text-align: left;
   }
 
   .md\:text-2xl {

@@ -32,20 +32,21 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mb-16"
-        >
-          <span className="inline-block px-4 py-2 mb-6 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-full">
-            Sobre Mim
-          </span>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-6">
-            Desenvolvedor em Formação
-          </h2>
-        </motion.div>
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  // Adicionei: text-center mx-auto md:text-left md:mx-0
+                  className="max-w-3xl mb-16 text-center mx-auto md:text-left md:mx-0"
+                >
+                  <span className="inline-block px-4 py-2 mb-6 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-full">
+                    Sobre Mim
+                  </span>
+                  
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-6">
+                    Desenvolvedor em Formação
+                  </h2>
+          </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mb-16">
           
