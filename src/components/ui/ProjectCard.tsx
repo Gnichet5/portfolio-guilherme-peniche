@@ -7,16 +7,19 @@ import type { Project } from '@/lib/constants'
 interface ProjectCardProps {
   project: Project
   index: number
+  disableHover?: boolean // <--- Nova prop opcional
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, disableHover = false }: ProjectCardProps) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white border border-neutral-200 rounded-2xl p-8 hover:border-neutral-300 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      // Lógica condicional: Se disableHover for true, não adiciona 'group' nem os efeitos de hover do card
+      className={`relative bg-white border border-neutral-200 rounded-2xl p-8 flex flex-col h-full transition-all duration-300 
+        ${!disableHover ? 'group hover:border-neutral-300 hover:shadow-xl' : ''}`}
     >
       {/* Featured Badge */}
       {project.featured && (
@@ -38,29 +41,32 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </span>
           </div>
           
-          <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-indigo-600 transition-colors">
+          {/* Título: Removemos a mudança de cor se o hover estiver desativado */}
+          <h3 className={`text-2xl font-bold text-neutral-900 mb-2 transition-colors ${!disableHover ? 'group-hover:text-indigo-600' : ''}`}>
             {project.title}
           </h3>
           
           <p className="text-sm text-neutral-500">{project.year}</p>
         </div>
 
-        {/* --- AQUI ESTÁ A MUDANÇA --- */}
         {project.githubUrl ? (
           <motion.a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 bg-neutral-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-20"
+            // Se o hover do card estiver desligado, o botão fica sempre visível (opacity-100)
+            // Se o hover estiver ligado, ele começa invisível e aparece com o grupo (opacity-0 group-hover:opacity-100)
+            className={`p-2 bg-neutral-100 rounded-full transition-opacity cursor-pointer z-20 
+              ${disableHover ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
             whileHover={{ scale: 1.1, rotate: 45 }}
             title="Ver repositório no GitHub"
           >
             <ArrowUpRight className="w-5 h-5 text-neutral-600 hover:text-indigo-600" />
           </motion.a>
         ) : (
-          /* Se não tiver link, mantém apenas o visual (opcional) */
           <motion.div
-            className="p-2 bg-neutral-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            className={`p-2 bg-neutral-100 rounded-full transition-opacity 
+              ${disableHover ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
             whileHover={{ scale: 1.1, rotate: 45 }}
           >
             <ArrowUpRight className="w-5 h-5 text-neutral-400" />
@@ -100,7 +106,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </div>
 
-      {/* Tech Stack - Fica sempre no rodapé do card */}
+      {/* Tech Stack */}
       <div className="mt-auto pt-6 border-t border-neutral-100">
         <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
           Stack Tecnológica
@@ -117,8 +123,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </div>
 
-      {/* Hover Gradient Border Effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-indigo-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none" />
+      {/* Hover Gradient Border Effect - Só renderiza se o hover estiver ativado */}
+      {!disableHover && (
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-indigo-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none" />
+      )}
     </motion.article>
   )
 }

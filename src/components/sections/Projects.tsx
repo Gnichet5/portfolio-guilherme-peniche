@@ -49,7 +49,6 @@ export default function Projects() {
             ))}
           </div>
         </div>
-        {/* Botão Ver Mais (Opcional) */}
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -92,22 +91,23 @@ export default function Projects() {
 
           </motion.div>
 
-          {/* Professional Experience Card - Full Width para dar destaque */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
-          >
-            {professionalExperience.map((project) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={0}
-              />
-            ))}
-          </motion.div>
+        {/* Professional Experience Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto"
+        >
+          {professionalExperience.map((project) => (
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              index={0}
+              disableHover={true} 
+            />
+          ))}
+        </motion.div>
 
 
         </div>
