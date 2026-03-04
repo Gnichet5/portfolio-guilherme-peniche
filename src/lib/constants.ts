@@ -44,6 +44,22 @@ export const projects: Project[] = [
     featured: true,
     githubUrl: 'https://github.com/Gnichet5/Produto-TCC'
   },
+    {
+    id: 'itau-corretora',
+    title: 'Itaú - Compras Programadas',
+    category: 'Full Stack & FinTech',
+    description: 'Sistema de automação de investimentos para processamento de aportes mensais, execução de ordens e rateio proporcional de ativos.',
+    problem: 'Automatizar o ciclo de compra e distribuição de ativos (Lotes Padrão e Fracionários) com base em cestas de ativos dinâmicas e saldos residuais.',
+    stack: ['.NET 8', 'C#', 'Next.js', 'TypeScript', 'MySQL', 'Docker', 'Entity Framework'],
+    highlights: [
+      'Motor de rebalanceamento automático com leitura de dados da B3 (COTAHIST)',
+      'Algoritmo de rateio proporcional para contas filhote com cálculo de IR Dedo-Duro',
+      'Dashboard financeiro em tempo real com composição de carteira (Recharts)'
+    ],
+    year: '2026',
+    featured: true,
+    githubUrl: 'https://github.com/Gnichet5/SistemaFinanceiro' 
+  },
   {
     id: 'sicsae',
     title: 'SICSAE - Controle de Vazão IoT',
