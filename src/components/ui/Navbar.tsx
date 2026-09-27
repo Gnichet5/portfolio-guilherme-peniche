@@ -1,189 +1,104 @@
 'use client'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Menu, X, ArrowUpRight } from 'lucide-react'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
-
+const links = [
+  { title: 'Experiência', id: 'experience' },
+  { title: 'Projetos', id: 'projects' },
+  { title: 'Trajetória', id: 'about' },
+  { title: 'Tecnologias', id: 'skills' },
+]
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('')
-
-  const navLinks = [
-    { name: 'Início', href: '#' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Projetos', href: '#projects' },
-    { name: 'Experiência', href: '#experience' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contato', href: '#contact' },
-  ]
-
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
+  const pathname = usePathname()
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-
-      const sections = ['about', 'projects', 'experience', 'skills', 'contact']
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActiveSection(section)
-            break
-          }
-        }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        document.getElementById('menu-toggle')?.focus()
       }
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
   }, [])
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    setIsMobileMenuOpen(false)
-
-    // espera o menu fechar antes de rolar
-    setTimeout(() => {
-      if (href === '#') {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        setActiveSection('')
-      } else {
-        const element = document.querySelector(href)
-        if (element) {
-          const headerOffset = 80
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.scrollY - headerOffset
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          })
-        }
-      }
-    }, 250) // tempo da animação
-  }
-
-  const showSolidNav = isScrolled || isMobileMenuOpen
-
+  useEffect(() => {
+    if (pathname !== '/') return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-15% 0px -60% 0px' },
+    )
+    document
+      .querySelectorAll('main > section[id]')
+      .forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [pathname])
+  const href = (id: string) => (pathname === '/' ? `#${id}` : `/#${id}`)
   return (
     <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          showSolidNav
-            ? 'bg-white/95 backdrop-blur-lg border-b border-neutral-200 shadow-sm'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
-            <a
-              href="#"
-              onClick={(e) => handleLinkClick(e, '#')}
-              className="text-xl md:text-2xl font-bold text-neutral-900 hover:text-indigo-600 transition-colors cursor-pointer"
-            >
-              GP<span className="text-indigo-600">.</span>
-            </a>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-              {navLinks.map((link) => {
-                const isActive =
-                  link.href === '#'
-                    ? activeSection === ''
-                    : activeSection === link.href.slice(1)
-
-                return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href)}
-                    className={`relative px-4 py-2 text-sm font-medium transition-colors cursor-pointer ${
-                      isActive
-                        ? 'text-indigo-600'
-                        : 'text-neutral-600 hover:text-neutral-900'
-                    }`}
-                  >
-                    {link.name}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeNav"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </a>
-                )
-              })}
-            </div>
-
-            {/* CTA Button */}
-            <a
-              href="#contact"
-              onClick={(e) => handleLinkClick(e, '#contact')}
-              className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 bg-neutral-900 text-white text-sm font-medium rounded-lg hover:bg-neutral-800 transition-all hover:shadow-lg cursor-pointer"
-            >
-              Contatar
-            </a>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-neutral-600 hover:text-neutral-900 transition-colors z-[110]"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </motion.nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-16 left-0 right-0 z-[90] md:hidden bg-white border-b border-neutral-200 shadow-xl overflow-hidden pointer-events-auto"
+      <a className="skip-link" href="#main-content">
+        Pular para o conteúdo
+      </a>
+      <header className="site-header">
+        <nav className="nav-shell" aria-label="Navegação principal">
+          <Link
+            className="brand"
+            href="/"
+            aria-label="Guilherme Peniche, início"
+            onClick={() => setOpen(false)}
           >
-            <div className="px-6 py-6 space-y-2 flex flex-col">
-              {navLinks.map((link) => {
-                const isActive =
-                  link.href === '#'
-                    ? activeSection === ''
-                    : activeSection === link.href.slice(1)
-
-                return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href)}
-                    className={`block w-full text-left px-4 py-4 rounded-lg font-medium transition-colors cursor-pointer ${
-                      isActive
-                        ? 'bg-indigo-50 text-indigo-600'
-                        : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
-                    }`}
-                  >
-                    {link.name}
-                  </a>
-                )
-              })}
+            gp<span>.</span>
+          </Link>
+          <div className="desktop-nav">
+            {links.map((link) => (
               <a
-                href="#contact"
-                onClick={(e) => handleLinkClick(e, '#contact')}
-                className="block w-full text-center px-4 py-4 bg-neutral-900 text-white font-medium rounded-lg hover:bg-neutral-800 transition-all mt-4 cursor-pointer"
+                key={link.id}
+                href={href(link.id)}
+                aria-current={
+                  pathname === '/' && active === link.id
+                    ? 'location'
+                    : undefined
+                }
               >
-                Contratar
+                {link.title}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+          </div>
+          <a className="nav-contact" href={href('contact')}>
+            Vamos conversar <ArrowUpRight size={16} />
+          </a>
+          <button
+            id="menu-toggle"
+            className="menu-toggle"
+            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+          <div id="mobile-menu" className="mobile-nav" hidden={!open}>
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={href(link.id)}
+                onClick={() => setOpen(false)}
+              >
+                {link.title}
+              </a>
+            ))}
+            <a href={href('contact')} onClick={() => setOpen(false)}>
+              Vamos conversar ↗
+            </a>
+          </div>
+        </nav>
+      </header>
     </>
   )
 }

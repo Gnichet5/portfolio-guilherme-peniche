@@ -1,117 +1,67 @@
-'use client'
-
-import { motion } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
+import { projects, experiments, profile } from '@/lib/constants'
 import ProjectCard from '@/components/ui/ProjectCard'
-import { projects } from '@/lib/constants'
-import { Briefcase } from 'lucide-react'
-import { ExternalLink } from 'lucide-react'
+
 export default function Projects() {
-  // Separar projetos acadêmicos da experiência profissional
-  const academicProjects = projects.filter(p => p.id !== 'serin')
-  const professionalExperience = projects.filter(p => p.id === 'serin')
-
   return (
-    <>
-      {/* Projetos Acadêmicos */}
-      <section id="projects" className="relative py-20 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mb-16 text-center mx-auto"
-
-          >
-            <span className="inline-block px-4 py-2 mb-6 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-full">
-              Portfólio Acadêmico
-            </span>
-            
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-6">
-              Projetos em Destaque
+    <section id="projects" className="section-pad projects-section">
+      <div className="section-shell">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">02 / PROJETOS SELECIONADOS</p>
+            <h2>
+              Ideias que ganharam
+              <br />
+              forma e código.
             </h2>
-            
-            <p className="text-lg md:text-xl text-neutral-600 leading-relaxed">
-              Projetos desenvolvidos ao longo da graduação combinando ciência de dados, 
-              inteligência artificial e engenharia de software para resolver problemas complexos.
-            </p>
-          </motion.div>
-
-          {/* Academic Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {academicProjects.map((project, index) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={index} 
-              />
+          </div>
+          <p>
+            Uma seleção de aplicações, experimentos e pesquisa. Cada projeto, um
+            problema diferente para resolver.
+          </p>
+        </div>
+        <div className="projects-grid">
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
+        </div>
+        <details className="experiments">
+          <summary>
+            Outros projetos e experimentos{' '}
+            <span>
+              {experiments.length.toString().padStart(2, '0')} /{' '}
+              <span className="expand-sign">+</span>
+            </span>
+          </summary>
+          <div className="experiments-grid">
+            {experiments.map((project) => (
+              <article key={project.title}>
+                <span className="label">{project.category}</span>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                {project.href && (
+                  <a
+                    className="text-link"
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Ver código <ArrowUpRight size={16} />
+                  </a>
+                )}
+              </article>
             ))}
           </div>
-        </div>
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-16 text-center"
+        </details>
+        <a
+          className="github-all text-link"
+          href={profile.github}
+          target="_blank"
+          rel="noreferrer"
         >
-          <a
-            href="https://github.com/Gnichet5"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-neutral-300 text-neutral-700 rounded-lg font-medium hover:bg-neutral-50 hover:border-neutral-400 transition-all"
-          >
-            Ver todos no GitHub
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        </motion.div>
-      </section>
-
-      {/* Experiência Profissional */}
-      <section id="experience" className="relative py-20 md:py-32 bg-gradient-to-b from-neutral-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mb-16"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2.5 bg-indigo-600 rounded-lg">
-                <Briefcase className="w-5 h-5 text-white" />
-              </div>
-              <span className="px-4 py-2 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-full">
-                Experiência Profissional
-              </span>
-            </div>
-            
-
-          </motion.div>
-
-        {/* Professional Experience Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
-          {professionalExperience.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              index={0}
-              disableHover={true} 
-            />
-          ))}
-        </motion.div>
-
-
-        </div>
-      </section>
-    </>
+          Mais no GitHub <ArrowUpRight size={18} />
+        </a>
+      </div>
+    </section>
   )
 }

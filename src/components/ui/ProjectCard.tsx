@@ -1,132 +1,50 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { ArrowUpRight, Code2, Award } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight, Github } from 'lucide-react'
 import type { Project } from '@/lib/constants'
+import ProjectVisual from './ProjectVisual'
 
-interface ProjectCardProps {
+export default function ProjectCard({
+  project,
+  index,
+}: {
   project: Project
   index: number
-  disableHover?: boolean // <--- Nova prop opcional
-}
-
-export default function ProjectCard({ project, index, disableHover = false }: ProjectCardProps) {
+}) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      // Lógica condicional: Se disableHover for true, não adiciona 'group' nem os efeitos de hover do card
-      className={`relative bg-white border border-neutral-200 rounded-2xl p-8 flex flex-col h-full transition-all duration-300 
-        ${!disableHover ? 'group hover:border-neutral-300 hover:shadow-xl' : ''}`}
-    >
-      {/* Featured Badge */}
-      {project.featured && (
-        <div className="absolute -top-3 -right-3 flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-full shadow-lg z-10">
-          <Award className="w-3 h-3" />
-          Destaque
+    <article className="project-card">
+      <ProjectVisual visual={project.visual} />
+      <div className="project-card-body">
+        <div className="project-meta">
+          <span>{project.category}</span>
+          <span>0{index + 1}</span>
         </div>
-      )}
-
-      {/* Header */}
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-indigo-50 rounded-lg">
-              <Code2 className="w-5 h-5 text-indigo-600" />
-            </div>
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
-              {project.category}
-            </span>
-          </div>
-          
-          {/* Título: Removemos a mudança de cor se o hover estiver desativado */}
-          <h3 className={`text-2xl font-bold text-neutral-900 mb-2 transition-colors ${!disableHover ? 'group-hover:text-indigo-600' : ''}`}>
-            {project.title}
-          </h3>
-          
-          <p className="text-sm text-neutral-500">{project.year}</p>
-        </div>
-
-        {project.githubUrl ? (
-          <motion.a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            // Se o hover do card estiver desligado, o botão fica sempre visível (opacity-100)
-            // Se o hover estiver ligado, ele começa invisível e aparece com o grupo (opacity-0 group-hover:opacity-100)
-            className={`p-2 bg-neutral-100 rounded-full transition-opacity cursor-pointer z-20 
-              ${disableHover ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-            whileHover={{ scale: 1.1, rotate: 45 }}
-            title="Ver repositório no GitHub"
-          >
-            <ArrowUpRight className="w-5 h-5 text-neutral-600 hover:text-indigo-600" />
-          </motion.a>
-        ) : (
-          <motion.div
-            className={`p-2 bg-neutral-100 rounded-full transition-opacity 
-              ${disableHover ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-            whileHover={{ scale: 1.1, rotate: 45 }}
-          >
-            <ArrowUpRight className="w-5 h-5 text-neutral-400" />
-          </motion.div>
-        )}
-      </div>
-
-      {/* Description */}
-      <div className="flex-grow">
-        <p className="text-neutral-700 mb-6 leading-relaxed">
-          {project.description}
-        </p>
-
-        {/* Problem Solved */}
-        <div className="mb-6 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
-          <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
-            Problema Resolvido
-          </h4>
-          <p className="text-sm text-neutral-700 leading-relaxed">
-            {project.problem}
-          </p>
-        </div>
-
-        {/* Highlights */}
-        <div className="mb-6">
-          <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
-            Destaques
-          </h4>
-          <ul className="space-y-2">
-            {project.highlights.map((highlight, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-neutral-700">
-                <span className="mt-1.5 w-1.5 h-1.5 bg-indigo-600 rounded-full flex-shrink-0" />
-                {highlight}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Tech Stack */}
-      <div className="mt-auto pt-6 border-t border-neutral-100">
-        <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
-          Stack Tecnológica
-        </h4>
-        <div className="flex flex-wrap gap-2">
-          {project.stack.map((tech) => (
-            <span
-              key={tech}
-              className="px-3 py-1.5 bg-neutral-100 text-neutral-700 text-xs font-medium rounded-lg hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
-            >
-              {tech}
-            </span>
+        <h3>
+          <Link href={`/projetos/${project.id}`}>{project.title}</Link>
+        </h3>
+        <p>{project.description}</p>
+        <div className="project-stack">
+          {project.stack.slice(0, 4).map((tech) => (
+            <span key={tech}>{tech}</span>
           ))}
         </div>
+        <div className="project-links">
+          <Link href={`/projetos/${project.id}`} className="text-link">
+            Explorar projeto <ArrowUpRight size={18} />
+          </Link>
+          {project.githubUrl && (
+            <a
+              className="repo-link"
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Código de ${project.title} no GitHub`}
+            >
+              <Github size={17} />
+              <span>Código</span>
+            </a>
+          )}
+        </div>
       </div>
-
-      {/* Hover Gradient Border Effect - Só renderiza se o hover estiver ativado */}
-      {!disableHover && (
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-indigo-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none" />
-      )}
-    </motion.article>
+    </article>
   )
 }

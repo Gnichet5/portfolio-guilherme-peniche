@@ -1,36 +1,39 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/ui/Footer'
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
+import { profile } from '@/lib/constants'
 export const metadata: Metadata = {
-  title: 'Guilherme Peniche | Cientista da Computação',
-  description: 'Portfólio de Guilherme Peniche Cordeiro - Desenvolvedor Full Stack júnior especializado em soluções inteligentes, IA e desenvolvimento web.',
-  keywords: ['Desenvolvedor Júnior', 'Full Stack', 'React', 'Next.js', 'Python', 'IA', 'Machine Learning', 'Cientista da Computação'],
-  authors: [{ name: 'Guilherme Peniche Cordeiro' }],
+  metadataBase: new URL(profile.site),
+  title: {
+    default: 'Guilherme Peniche | Full Stack & IA aplicada',
+    template: '%s | Guilherme Peniche',
+  },
+  description:
+    'Desenvolvedor Full Stack com atuação em sistemas corporativos, dashboards e IA aplicada. Conheça projetos, experiência na SERIN e pesquisa premiada no SIINTEC.',
+  authors: [{ name: profile.fullName }],
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    title: 'Guilherme Peniche | Cientista da Computação',
-    description: 'Desenvolvedor Full Stack júnior especializado em soluções inteligentes',
+    siteName: 'Guilherme Peniche',
+    title: 'Guilherme Peniche | Full Stack & IA aplicada',
+    description:
+      'Software, dados e IA. Projetos, experiência profissional e pesquisa aplicada.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Guilherme Peniche | Full Stack & IA aplicada',
+    images: ['/opengraph-image'],
   },
 }
-
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang="pt-BR">
+      <body>
         <Navbar />
         {children}
         <Footer />

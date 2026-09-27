@@ -1,165 +1,54 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { GraduationCap, Briefcase, Target, Code2 } from 'lucide-react'
+import { ArrowUpRight, Award } from 'lucide-react'
+import { profile } from '@/lib/constants'
 
 export default function About() {
-  const highlights = [
-    {
-      icon: GraduationCap,
-      title: 'Formação Acadêmica',
-      description: 'Bacharel em Ciência da Computação pelo Centro Universitário Jorge Amado (UNIJORGE)'
-    },
-    {
-      icon: Target,
-      title: 'Pesquisa & TCC',
-      description: 'Sistema de detecção de fraudes em cartões de crédito e pesquisa em otimização de agentes de Deep Reinforcement Learning'
-    },
-    {
-      icon: Code2,
-      title: 'Projetos Práticos',
-      description: 'Desenvolvimento de sistemas web (Laravel, React, Inertia.js) e soluções embarcadas com ESP32'
-    },
-    {
-      icon: Briefcase,
-      title: 'Objetivo Profissional',
-      description: 'Busco oportunidade como desenvolvedor para aplicar conhecimentos e evoluir na carreira'
-    }
-  ]
-
   return (
-    <section id="about" className="relative py-20 md:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mb-16 text-center mx-auto md:text-left md:mx-0"
-        >
-          <span className="inline-block px-4 py-2 mb-6 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-full">
-            Sobre Mim
-          </span>
-
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-6">
-            Desenvolvedor em Formação
+    <section id="about" className="section-pad research-section">
+      <div className="section-shell research-layout">
+        <div>
+          <p className="eyebrow">03 / PESQUISA E TRAJETÓRIA</p>
+          <h2>
+            Curiosidade que
+            <br />
+            vira investigação.
           </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mb-16">
-
-          {/* Bio Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6 flex flex-col justify-center"
-          >
-            <p className="text-lg text-neutral-700 leading-relaxed text-justify">
-              Sou <span className="font-semibold text-neutral-900">recém-formado em Ciência da Computação pela UNIJORGE</span> e
-              venho construindo minha trajetória com foco em desenvolvimento de software e soluções inteligentes.
-            </p>
-
-            <p className="text-base text-neutral-600 leading-relaxed text-justify">
-              Ao longo da graduação, participei de <strong>projetos práticos</strong> que uniram hardware, software e
-              análise de dados, desde sistemas embarcados com ESP32 para monitoramento ambiental até aplicações web
-              em Laravel, React e Inertia.js voltadas à automação de processos.
-            </p>
-
-            <p className="text-base text-neutral-600 leading-relaxed text-justify">
-              Também desenvolvi <strong>pesquisas aplicadas em machine learning</strong>, com destaque para minha pesquisa
-              "Optimization of code for scalability of deep reinforcement learning agents in slow and stochastic industrial process patterns",
-              que investiga o impacto das técnicas de otimização de código na escalabilidade e no tempo de treinamento de agentes de aprendizado por reforço profundo (DRL).
-            </p>
-
-            <p className="text-base text-neutral-600 leading-relaxed text-justify">
-              Acredito que posso <strong>contribuir trazendo uma visão analítica aliada à prática de desenvolvimento</strong>,
-              buscando sempre soluções eficientes, bem estruturadas e com impacto real. Tenho facilidade em aprender
-              novas tecnologias e trabalhar em equipe.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="hidden lg:block relative h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl bg-neutral-800 border border-neutral-700"
-          >
-
-            {/* Content */}
-            <div className="relative h-full flex flex-col justify-start p-8 md:p-10">
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative z-10"
-              >
-                <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-xl font-bold text-white tracking-wider uppercase">
-                    Sobre Mim
-                  </h3>
-                  <div className="w-10 h-10 rounded-full border border-neutral-600 flex items-center justify-center bg-neutral-700">
-                    <Code2 className="text-white w-5 h-5" />
-                  </div>
-                </div>
-
-                <div className="space-y-4 text-white">
-                  <p className="text-3xl md:text-4xl font-bold">
-                    Guilherme Peniche Cordeiro
-                  </p>
-                  <p className="text-xl font-bold text-lg font-medium">
-                    Cientista da Computação • UNIJORGE
-                  </p>
-
-                  <div className="h-px bg-neutral-600 w-full my-6" />
-
-                  <p className="text-base font-bold text-white leading-relaxed text-justify" >
-                    Desenvolvedor Full Stack em formação com paixão por criar soluções que fazem diferença.
-                    Procurando oportunidades para aplicar conhecimentos, aprender e crescer na carreira de desenvolvimento de software.
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-
-          </motion.div>
+          <p className="section-intro">
+            Sou bacharel em Ciência da Computação pela UNIJORGE. Minha
+            trajetória conecta desenvolvimento de software, análise de dados e
+            pesquisa aplicada em inteligência artificial.
+          </p>
+          <p className="body-copy">
+            Gosto de entender o problema por trás de cada demanda e transformar
+            esse contexto em aplicações úteis. Hoje, amplio essa visão com
+            estudos de cloud e participação em atividades de infraestrutura.
+          </p>
         </div>
-
-        {/* Highlights Grid - HOVER REMOVIDO AQUI */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {highlights.map((highlight, index) => {
-            const Icon = highlight.icon
-            return (
-              <motion.div
-                key={highlight.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                // Limpei as classes de hover e transição abaixo
-                className="bg-neutral-50 border border-neutral-200 rounded-xl p-6"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-2.5 bg-white border border-neutral-200 rounded-lg">
-                    <Icon className="w-5 h-5 text-neutral-700" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-neutral-900 mb-1.5">
-                      {highlight.title}
-                    </h4>
-                    <p className="text-sm text-neutral-600 leading-relaxed">
-                      {highlight.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
+        <article className="research-card">
+          <div className="research-card-top">
+            <Award size={28} strokeWidth={1.5} />
+            <span>XI SIINTEC · 2025</span>
+          </div>
+          <p className="label">RECONHECIMENTO</p>
+          <h3>Melhor trabalho</h3>
+          <p>Tecnologias Digitais e Computação de Alto Desempenho</p>
+          <div className="research-divider" />
+          <h4>
+            Otimização de código para escalabilidade de agentes de Deep
+            Reinforcement Learning
+          </h4>
+          <p className="research-caption">
+            Pesquisa em processos industriais estocásticos. Publicação no
+            Journal of Bioengineering, Technologies and Health em 2026.
+          </p>
+          <a
+            className="text-link"
+            href={profile.article}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Ler artigo publicado <ArrowUpRight size={18} />
+          </a>
+        </article>
       </div>
     </section>
   )

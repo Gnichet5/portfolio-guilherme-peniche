@@ -1,144 +1,115 @@
-import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import {
+  contactEmail,
+  createLocalLimiter,
+  validateContact,
+} from '@/lib/contact'
+export const runtime = 'nodejs'
+export const maxDuration = 30
+const allowRequest = createLocalLimiter()
+const MAX_BODY_BYTES = 24000
 
-// Validação de email
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-// Rate limiting simples
-const recentSubmissions = new Map<string, number>()
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const lastSubmission = recentSubmissions.get(ip) || 0
-  
-  if (now - lastSubmission < 60000) return false
-  
-  recentSubmissions.set(ip, now)
-  
-  // Limpar cache antigo
-  for (const [key, value] of recentSubmissions.entries()) {
-    if (now - value > 300000) recentSubmissions.delete(key)
-  }
-  
-  return true
-}
-
-export async function POST(request: NextRequest) {
+async function readBody(request: Request) {
+  const reader = request.body?.getReader()
+  if (!reader) return ''
+  const decoder = new TextDecoder()
+  let bytes = 0
+  let body = ''
   try {
-    const ip = request.headers.get('x-forwarded-for') || 'unknown'
-
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: 'Aguarde 1 minuto antes de enviar outra mensagem.' },
-        { status: 429 }
-      )
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      bytes += value.byteLength
+      if (bytes > MAX_BODY_BYTES) {
+        await reader.cancel()
+        throw new RangeError('Body too large')
+      }
+      body += decoder.decode(value, { stream: true })
     }
+    return body + decoder.decode()
+  } finally {
+    reader.releaseLock()
+  }
+}
 
-    const body = await request.json()
-    const { name, email, subject, message, honeypot } = body
-
-    // Anti-spam
-    if (honeypot) {
-      return NextResponse.json({ error: 'Spam detectado' }, { status: 400 })
-    }
-
-    // Validações
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'Todos os campos são obrigatórios' },
-        { status: 400 }
-      )
-    }
-
-    if (!isValidEmail(email)) {
-      return NextResponse.json({ error: 'Email inválido' }, { status: 400 })
-    }
-
-    if (message.length < 4) {
-      return NextResponse.json(
-        { error: 'Mensagem muito curta (mínimo 4 caracteres)' },
-        { status: 400 }
-      )
-    }
-
-    // Configurar email
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASSWORD
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
-        })
-
-    await transporter.verify()
-
-    // Email para você
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      replyTo: email,
-      subject: `[Portfólio] ${subject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px;">
-          <h2 style="color: #4f46e5;">Nova Mensagem do Portfólio</h2>
-          
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Nome:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-            <p><strong>Assunto:</strong> ${subject}</p>
-          </div>
-          
-          <div style="background: white; padding: 20px; border-left: 4px solid #4f46e5;">
-            <h3>Mensagem:</h3>
-            <p style="white-space: pre-wrap;">${message}</p>
-          </div>
-          
-          <p style="color: #666; font-size: 12px; margin-top: 30px;">
-            Enviado em ${new Date().toLocaleString('pt-BR')}
-          </p>
-        </div>
-      `
-    })
-
-    // Email de confirmação
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Recebi sua mensagem! - Guilherme Peniche',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px;">
-          <h2 style="color: #4f46e5;">Olá ${name}!</h2>
-          <p>Recebi sua mensagem e vou responder em breve.</p>
-          
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Sua mensagem:</strong></p>
-            <p style="white-space: pre-wrap; color: #666;">${message}</p>
-          </div>
-          
-          <p>Obrigado pelo contato!</p>
-          <p style="margin-top: 30px;">
-            <strong>Guilherme Peniche Cordeiro</strong><br>
-          </p>
-        </div>
-      `
-    })
-
-    return NextResponse.json({
-      success: true,
-      message: 'Mensagem enviada! Verifique seu email para confirmação.'
-    })
-
+export async function POST(request: Request) {
+  const origin = request.headers.get('origin')
+  if (origin && origin !== new URL(request.url).origin)
+    return Response.json({ error: 'Origem não permitida.' }, { status: 403 })
+  if (
+    !request.headers
+      .get('content-type')
+      ?.toLowerCase()
+      .startsWith('application/json')
+  )
+    return Response.json({ error: 'Formato inválido.' }, { status: 415 })
+  if (Number(request.headers.get('content-length')) > MAX_BODY_BYTES)
+    return Response.json({ error: 'Mensagem muito grande.' }, { status: 413 })
+  let body: unknown
+  try {
+    body = JSON.parse(await readBody(request))
   } catch (error) {
-    console.error('Erro ao enviar email:', error)
-    return NextResponse.json(
-      { error: 'Erro ao enviar mensagem. Tente novamente.' },
-      { status: 500 }
+    return Response.json(
+      {
+        error:
+          error instanceof RangeError
+            ? 'Mensagem muito grande.'
+            : 'Dados inválidos.',
+      },
+      { status: error instanceof RangeError ? 413 : 400 },
     )
+  }
+  const validation = validateContact(body)
+  if (!validation.ok)
+    return Response.json({ error: validation.error }, { status: 400 })
+  const user = process.env.EMAIL_USER
+  const pass = process.env.EMAIL_PASSWORD
+  if (!user || !pass)
+    return Response.json(
+      {
+        error:
+          'O formulário está temporariamente indisponível. Entre em contato diretamente por e-mail.',
+      },
+      { status: 503 },
+    )
+  const ip = (
+    request.headers.get('x-vercel-forwarded-for') ||
+    request.headers.get('x-forwarded-for') ||
+    'unknown'
+  )
+    .split(',')[0]
+    .trim()
+  if (!allowRequest(ip))
+    return Response.json(
+      { error: 'Aguarde um minuto antes de tentar novamente.' },
+      { status: 429, headers: { 'Retry-After': '60' } },
+    )
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user, pass },
+    connectionTimeout: 8000,
+    greetingTimeout: 8000,
+    socketTimeout: 15000,
+  })
+  try {
+    await transporter.sendMail({
+      from: user,
+      to: user,
+      ...contactEmail(validation.data),
+    })
+    return Response.json({
+      message: 'Mensagem recebida. Obrigado pelo contato!',
+    })
+  } catch {
+    console.error('Falha no transporte de e-mail do formulário de contato.')
+    return Response.json(
+      {
+        error:
+          'Não foi possível enviar agora. Tente novamente mais tarde ou use o e-mail de contato.',
+      },
+      { status: 502 },
+    )
+  } finally {
+    transporter.close()
   }
 }
