@@ -1,25 +1,26 @@
-import { skillsData, profile } from '@/lib/constants'
-export default function Skills() {
+import { profile } from '@/lib/constants'
+import { getSkills } from '@/lib/content'
+import { copy } from '@/lib/copy'
+import type { Locale } from '@/lib/i18n'
+export default function Skills({ locale }: { locale: Locale }) {
+  const c = copy[locale].skills
   return (
     <section id="skills" className="section-pad section-shell">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">04 / REPERTÓRIO</p>
+          <p className="eyebrow">{c.eyebrow}</p>
           <h2>
-            Tecnologia a serviço
+            {c.title[0]}
             <br />
-            de cada problema.
+            {c.title[1]}
           </h2>
         </div>
-        <p>
-          Ferramentas utilizadas em projetos profissionais, pessoais e de
-          pesquisa.
-        </p>
+        <p>{c.intro}</p>
       </div>
       <div className="skills-grid">
-        {skillsData.map((group, i) => (
+        {getSkills(locale).map((group, index) => (
           <article key={group.title}>
-            <span className="label">0{i + 1}</span>
+            <span className="label">0{index + 1}</span>
             <h3>{group.title}</h3>
             <ul>
               {group.skills.map((skill) => (
@@ -34,12 +35,9 @@ export default function Skills() {
           AWS
         </div>
         <div>
-          <span className="label">CERTIFICAÇÃO OBTIDA</span>
+          <span className="label">{c.certified}</span>
           <h3>AWS Certified Cloud Practitioner</h3>
-          <p>
-            Fundamentos de serviços, segurança, arquitetura e custos na nuvem
-            AWS.
-          </p>
+          <p>{c.certification}</p>
         </div>
         <a
           className="text-link"
@@ -47,20 +45,16 @@ export default function Skills() {
           target="_blank"
           rel="noreferrer"
         >
-          Ver credencial ↗
+          {c.credential} ↗
         </a>
       </div>
       <div className="learning-strip">
-        <span className="label">EM EVOLUÇÃO</span>
+        <span className="label">{c.evolving}</span>
         <div>
-          <h3>Infraestrutura e arquitetura em nuvem</h3>
-          <p>
-            Após a certificação Cloud Practitioner, preparação para AWS
-            Certified Solutions Architect – Associate, conectada à experiência
-            prática em infraestrutura.
-          </p>
+          <h3>{c.cloud}</h3>
+          <p>{c.learning}</p>
         </div>
-        <span className="learning-badge">Aprendizado contínuo ↗</span>
+        <span className="learning-badge">{c.continuous} ↗</span>
       </div>
     </section>
   )

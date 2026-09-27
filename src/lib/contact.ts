@@ -1,3 +1,5 @@
+import type { Locale } from './i18n'
+import { contactMessages } from './contact-messages'
 export interface ContactData {
   name: string
   email: string
@@ -6,15 +8,19 @@ export interface ContactData {
 }
 export type Validation =
   { ok: true; data: ContactData } | { ok: false; error: string }
-export function validateContact(input: unknown): Validation {
+export function validateContact(
+  input: unknown,
+  locale: Locale = 'pt',
+): Validation {
+  const messages = contactMessages[locale]
   if (!input || typeof input !== 'object' || Array.isArray(input))
-    return { ok: false, error: 'Dados inválidos.' }
+    return { ok: false, error: messages.invalid }
   const body = input as Record<string, unknown>
   if (body.honeypot !== undefined && body.honeypot !== '')
-    return { ok: false, error: 'Não foi possível enviar a mensagem.' }
+    return { ok: false, error: messages.spam }
   for (const key of ['name', 'email', 'subject', 'message']) {
     if (typeof body[key] !== 'string')
-      return { ok: false, error: 'Preencha todos os campos.' }
+      return { ok: false, error: messages.required }
   }
   const data: ContactData = {
     name: (body.name as string).trim(),
@@ -32,15 +38,14 @@ export function validateContact(input: unknown): Validation {
   )
     return {
       ok: false,
-      error:
-        'Confira o tamanho dos campos. A mensagem deve ter entre 10 e 5.000 caracteres.',
+      error: messages.size,
     }
   if (
     data.email.length > 254 ||
     !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(data.email) ||
     /[\r\n]/.test(data.subject + data.name)
   )
-    return { ok: false, error: 'Confira o nome, assunto e endereço de e-mail.' }
+    return { ok: false, error: messages.fields }
   return { ok: true, data }
 }
 export function escapeHtml(value: string): string {

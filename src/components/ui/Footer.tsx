@@ -1,16 +1,25 @@
 import Link from 'next/link'
 import { profile } from '@/lib/constants'
-export default function Footer() {
+import { copy } from '@/lib/copy'
+import { localizedPath, type Locale } from '@/lib/i18n'
+export default function Footer({ locale }: { locale: Locale }) {
+  const c = copy[locale]
   return (
     <footer className="site-footer">
       <div className="section-shell footer-inner">
-        <Link className="brand" href="/" aria-label="Guilherme Peniche, início">
+        <Link
+          className="brand"
+          href={localizedPath(locale)}
+          aria-label={c.nav.home}
+        >
           gp<span>.</span>
         </Link>
         <p>
-          Guilherme Peniche · Software, dados e IA.
+          Guilherme Peniche · {c.footer.description}
           <br />
-          <span>© {new Date().getFullYear()} · Salvador, Bahia</span>
+          <span>
+            © {new Date().getFullYear()} · {c.footer.location}
+          </span>
         </p>
         <div>
           <a href={profile.github} target="_blank" rel="noreferrer">
@@ -19,7 +28,9 @@ export default function Footer() {
           <a href={profile.linkedin} target="_blank" rel="noreferrer">
             LinkedIn ↗
           </a>
-          <a href="/curriculo">Currículo ↗</a>
+          <Link href={localizedPath(locale, { kind: 'resume' })}>
+            {c.footer.resume} ↗
+          </Link>
         </div>
       </div>
     </footer>

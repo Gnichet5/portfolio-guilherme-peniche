@@ -1,3 +1,5 @@
+import { detectLocale } from '@/lib/i18n'
+import { contactMessages } from '@/lib/contact-messages'
 import nodemailer from 'nodemailer'
 import {
   contactEmail,
@@ -33,33 +35,32 @@ async function readBody(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const locale = detectLocale(request.headers.get('accept-language'))
+  const messages = contactMessages[locale]
   const origin = request.headers.get('origin')
   if (origin && origin !== new URL(request.url).origin)
-    return Response.json({ error: 'Origem não permitida.' }, { status: 403 })
+    return Response.json({ error: messages.origin }, { status: 403 })
   if (
     !request.headers
       .get('content-type')
       ?.toLowerCase()
       .startsWith('application/json')
   )
-    return Response.json({ error: 'Formato inválido.' }, { status: 415 })
+    return Response.json({ error: messages.format }, { status: 415 })
   if (Number(request.headers.get('content-length')) > MAX_BODY_BYTES)
-    return Response.json({ error: 'Mensagem muito grande.' }, { status: 413 })
+    return Response.json({ error: messages.large }, { status: 413 })
   let body: unknown
   try {
     body = JSON.parse(await readBody(request))
   } catch (error) {
     return Response.json(
       {
-        error:
-          error instanceof RangeError
-            ? 'Mensagem muito grande.'
-            : 'Dados inválidos.',
+        error: error instanceof RangeError ? messages.large : messages.invalid,
       },
       { status: error instanceof RangeError ? 413 : 400 },
     )
   }
-  const validation = validateContact(body)
+  const validation = validateContact(body, locale)
   if (!validation.ok)
     return Response.json({ error: validation.error }, { status: 400 })
   const user = process.env.EMAIL_USER
@@ -67,8 +68,7 @@ export async function POST(request: Request) {
   if (!user || !pass)
     return Response.json(
       {
-        error:
-          'O formulário está temporariamente indisponível. Entre em contato diretamente por e-mail.',
+        error: messages.unavailable,
       },
       { status: 503 },
     )
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     .trim()
   if (!allowRequest(ip))
     return Response.json(
-      { error: 'Aguarde um minuto antes de tentar novamente.' },
+      { error: messages.limit },
       { status: 429, headers: { 'Retry-After': '60' } },
     )
   const transporter = nodemailer.createTransport({
@@ -98,14 +98,13 @@ export async function POST(request: Request) {
       ...contactEmail(validation.data),
     })
     return Response.json({
-      message: 'Mensagem recebida. Obrigado pelo contato!',
+      message: messages.success,
     })
   } catch {
     console.error('Falha no transporte de e-mail do formulário de contato.')
     return Response.json(
       {
-        error:
-          'Não foi possível enviar agora. Tente novamente mais tarde ou use o e-mail de contato.',
+        error: messages.failed,
       },
       { status: 502 },
     )

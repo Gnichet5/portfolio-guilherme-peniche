@@ -8,23 +8,27 @@ import {
   ChartNoAxesCombined,
 } from 'lucide-react'
 import type { Project } from '@/lib/constants'
-
+import type { Locale } from '@/lib/i18n'
+import { copy } from '@/lib/copy'
 export default function ProjectVisual({
   visual,
+  locale,
 }: {
   visual: Project['visual']
+  locale: Locale
 }) {
+  const c = copy[locale].visual
   return (
     <div className={`project-visual visual-${visual}`} aria-hidden="true">
       <div className="visual-topline">
-        <span>CONCEITO DO PROJETO</span>
+        <span>{c.concept}</span>
         <span>GP / LAB</span>
       </div>
       {visual === 'janus' && (
         <div className="janus-visual">
           <div className="janus-node small-node">
             <Database size={22} />
-            <span>MEMÓRIA</span>
+            <span>{c.memory}</span>
           </div>
           <span className="node-line" />
           <div className="janus-node main-node">
@@ -34,7 +38,7 @@ export default function ProjectVisual({
           <span className="node-line" />
           <div className="janus-node small-node">
             <Workflow size={22} />
-            <span>FERRAMENTAS</span>
+            <span>{c.tools}</span>
           </div>
         </div>
       )}
@@ -44,14 +48,14 @@ export default function ProjectVisual({
             <Fingerprint size={68} strokeWidth={1} />
           </div>
           <div>
-            <span className="visual-label">TRANSAÇÕES → MODELO</span>
+            <span className="visual-label">{c.transactions}</span>
             <strong>
-              Encontrar padrões.
+              {c.fraud[0]}
               <br />
-              Investigar anomalias.
+              {c.fraud[1]}
             </strong>
             <div className="visual-pills">
-              <span>Precisão</span>
+              <span>{c.precision}</span>
               <span>Recall</span>
               <span>F1</span>
             </div>
@@ -65,16 +69,16 @@ export default function ProjectVisual({
             <span className="research-orbit" />
           </div>
           <div>
-            <span className="visual-label">APRENDIZADO POR REFORÇO</span>
+            <span className="visual-label">{c.reinforcement}</span>
             <strong>
-              Experimentar.
+              {c.research[0]}
               <br />
-              Otimizar. Escalar.
+              {c.research[1]}
             </strong>
             <div className="visual-pills">
-              <span>Agente</span>
+              <span>{c.agent}</span>
               <ArrowRight size={14} />
-              <span>Ambiente</span>
+              <span>{c.environment}</span>
             </div>
           </div>
         </div>
@@ -85,15 +89,16 @@ export default function ProjectVisual({
             <ChartNoAxesCombined size={32} strokeWidth={1.4} />
           </div>
           <div>
-            <span className="visual-label">REGRAS DE NEGÓCIO</span>
+            <span className="visual-label">{c.rules}</span>
             <strong>
-              Do aporte
-              <br />à carteira.
+              {c.finance[0]}
+              <br />
+              {c.finance[1]}
             </strong>
             <div className="visual-pills">
-              <span>Compra</span>
+              <span>{c.purchase}</span>
               <ArrowRight size={14} />
-              <span>Rateio</span>
+              <span>{c.allocation}</span>
             </div>
           </div>
         </div>

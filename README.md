@@ -20,7 +20,7 @@ npm run build
 - `src/lib/constants.ts`: perfil, links, projetos e tecnologias.
 - `src/components/sections/Experience.tsx`: experiência profissional.
 - `src/components/sections/Skills.tsx`: estudos em cloud.
-- `src/app/curriculo/page.tsx`: currículo resumido; manter consistente com o perfil.
+- `src/components/pages/Resume.tsx`: currículo resumido; manter consistente com o perfil.
 - `src/app/globals.css`: identidade visual e regras responsivas.
 
 Os visuais dos cards são diagramas conceituais em CSS, identificados como tal. Não são screenshots nem resultados quantitativos dos projetos.
@@ -48,3 +48,15 @@ O código está nesta pasta (`home/claude/portfolio-guilherme-clean` dentro da p
 - A URL canônica está em `profile.site`; altere-a caso adote domínio próprio.
 
 O build gera sitemap, robots, imagem Open Graph e as quatro páginas de projetos. O layout respeita preferência por movimento reduzido e não depende de WebGL ou JavaScript para revelar conteúdo.
+
+## Idiomas (português e inglês)
+
+- `/pt` e `/en` são links fixos de idioma. Um link explícito sempre tem prioridade.
+- `/` e os endereços antigos (`/curriculo`, `/projetos/...`) escolhem o idioma pelo cookie de preferência e depois pelo cabeçalho `Accept-Language`. O fallback é português.
+- O seletor PT/EN salva a escolha por um ano e mantém a página equivalente, parâmetros da URL e âncora. Funciona também em projetos e currículo. Sem cookies, os links explícitos continuam funcionando.
+- Para candidaturas internacionais, compartilhe `/en` ou `/en/resume`.
+- As páginas são geradas estaticamente para cada idioma, com `html lang`, canonical, hreflang, sitemap e imagem Open Graph localizados.
+- `src/lib/copy.ts`: textos da interface e currículo. `src/lib/content.ts`: projetos em inglês. `src/lib/constants.ts`: dados originais em português e links comuns.
+- `src/lib/i18n.ts`: mapeamento de rotas e negociação de idioma. `src/proxy.ts`: redirecionamento dos endereços sem idioma.
+- Mensagens da API de contato acompanham o idioma do formulário; o conteúdo escrito pelo visitante é preservado.
+- Novas traduções devem manter títulos, responsabilidades, certificações e resultados fiéis ao conteúdo do titular.

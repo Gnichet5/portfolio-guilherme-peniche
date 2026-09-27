@@ -1,33 +1,39 @@
 import { ArrowUpRight } from 'lucide-react'
-import { projects, experiments, profile } from '@/lib/constants'
+import { profile } from '@/lib/constants'
+import { getProjects, getExperiments } from '@/lib/content'
+import { copy } from '@/lib/copy'
+import type { Locale } from '@/lib/i18n'
 import ProjectCard from '@/components/ui/ProjectCard'
-
-export default function Projects() {
+export default function Projects({ locale }: { locale: Locale }) {
+  const c = copy[locale].projects
+  const experiments = getExperiments(locale)
   return (
     <section id="projects" className="section-pad projects-section">
       <div className="section-shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">02 / PROJETOS SELECIONADOS</p>
+            <p className="eyebrow">{c.eyebrow}</p>
             <h2>
-              Ideias que ganharam
+              {c.title[0]}
               <br />
-              forma e código.
+              {c.title[1]}
             </h2>
           </div>
-          <p>
-            Uma seleção de aplicações, experimentos e pesquisa. Cada projeto, um
-            problema diferente para resolver.
-          </p>
+          <p>{c.intro}</p>
         </div>
         <div className="projects-grid">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {getProjects(locale).map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              locale={locale}
+            />
           ))}
         </div>
         <details className="experiments">
           <summary>
-            Outros projetos e experimentos{' '}
+            {c.other}
             <span>
               {experiments.length.toString().padStart(2, '0')} /{' '}
               <span className="expand-sign">+</span>
@@ -46,7 +52,7 @@ export default function Projects() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Ver código <ArrowUpRight size={16} />
+                    {c.viewCode} <ArrowUpRight size={16} />
                   </a>
                 )}
               </article>
@@ -59,7 +65,7 @@ export default function Projects() {
           target="_blank"
           rel="noreferrer"
         >
-          Mais no GitHub <ArrowUpRight size={18} />
+          {c.more} <ArrowUpRight size={18} />
         </a>
       </div>
     </section>
