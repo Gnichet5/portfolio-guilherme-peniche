@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
-
-const links = [
-  { title: 'Experiência', id: 'experience' },
-  { title: 'Projetos', id: 'projects' },
-  { title: 'Trajetória', id: 'about' },
-  { title: 'Tecnologias', id: 'skills' },
-]
-export default function Navbar() {
+import { localizedPath, type Locale } from '@/lib/i18n'
+import { copy } from '@/lib/copy'
+import LanguageSwitcher from './LanguageSwitcher'
+const sections = ['experience', 'projects', 'about', 'skills'] as const
+export default function Navbar({ locale }: { locale: Locale }) {
+  const c = copy[locale].nav
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const pathname = usePathname()
+  const home = localizedPath(locale)
   useEffect(() => {
+    if (!open) return
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false)
@@ -23,9 +23,9 @@ export default function Navbar() {
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [])
+  }, [open])
   useEffect(() => {
-    if (pathname !== '/') return
+    if (pathname !== home) return
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -38,63 +38,60 @@ export default function Navbar() {
       .querySelectorAll('main > section[id]')
       .forEach((section) => observer.observe(section))
     return () => observer.disconnect()
-  }, [pathname])
-  const href = (id: string) => (pathname === '/' ? `#${id}` : `/#${id}`)
+  }, [pathname, home])
+  const href = (id: string) => `${pathname === home ? '' : home}#${id}`
   return (
     <>
       <a className="skip-link" href="#main-content">
-        Pular para o conteúdo
+        {c.skip}
       </a>
       <header className="site-header">
-        <nav className="nav-shell" aria-label="Navegação principal">
+        <nav className="nav-shell" aria-label={c.label}>
           <Link
             className="brand"
-            href="/"
-            aria-label="Guilherme Peniche, início"
+            href={home}
+            aria-label={c.home}
             onClick={() => setOpen(false)}
           >
             gp<span>.</span>
           </Link>
           <div className="desktop-nav">
-            {links.map((link) => (
+            {sections.map((id) => (
               <a
-                key={link.id}
-                href={href(link.id)}
+                key={id}
+                href={href(id)}
                 aria-current={
-                  pathname === '/' && active === link.id
-                    ? 'location'
-                    : undefined
+                  pathname === home && active === id ? 'location' : undefined
                 }
               >
-                {link.title}
+                {c[id]}
               </a>
             ))}
           </div>
-          <a className="nav-contact" href={href('contact')}>
-            Vamos conversar <ArrowUpRight size={16} />
-          </a>
-          <button
-            id="menu-toggle"
-            className="menu-toggle"
-            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X /> : <Menu />}
-          </button>
+          <div className="nav-actions">
+            <a className="nav-contact" href={href('contact')}>
+              {c.contact} <ArrowUpRight size={16} />
+            </a>
+            <LanguageSwitcher locale={locale} />
+            <button
+              id="menu-toggle"
+              className="menu-toggle"
+              aria-label={open ? c.close : c.open}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <X /> : <Menu />}
+            </button>
+          </div>
           <div id="mobile-menu" className="mobile-nav" hidden={!open}>
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={href(link.id)}
-                onClick={() => setOpen(false)}
-              >
-                {link.title}
+            {sections.map((id) => (
+              <a key={id} href={href(id)} onClick={() => setOpen(false)}>
+                {c[id]}
               </a>
             ))}
             <a href={href('contact')} onClick={() => setOpen(false)}>
-              Vamos conversar ↗
+              {c.contact} ↗
             </a>
           </div>
         </nav>

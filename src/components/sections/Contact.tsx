@@ -2,8 +2,10 @@
 import { useState } from 'react'
 import { ArrowUpRight, LoaderCircle } from 'lucide-react'
 import { profile } from '@/lib/constants'
-
-export default function Contact() {
+import { copy } from '@/lib/copy'
+import type { Locale } from '@/lib/i18n'
+export default function Contact({ locale }: { locale: Locale }) {
+  const c = copy[locale].contact
   const [busy, setBusy] = useState(false)
   const [feedback, setFeedback] = useState<{
     ok: boolean
@@ -18,25 +20,21 @@ export default function Contact() {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': locale,
+        },
         body: JSON.stringify(data),
         signal: AbortSignal.timeout(25000),
       })
       const result = await response.json()
       setFeedback({
         ok: response.ok,
-        message: response.ok
-          ? 'Mensagem recebida. Obrigado pelo contato!'
-          : result.error ||
-            'Não foi possível enviar. Tente novamente ou use o e-mail ao lado.',
+        message: response.ok ? c.success : result.error || c.failure,
       })
       if (response.ok) form.reset()
     } catch {
-      setFeedback({
-        ok: false,
-        message:
-          'Não foi possível confirmar o envio. Você também pode entrar em contato diretamente por e-mail.',
-      })
+      setFeedback({ ok: false, message: c.connection })
     } finally {
       setBusy(false)
     }
@@ -45,16 +43,13 @@ export default function Contact() {
     <section id="contact" className="section-pad contact-section">
       <div className="section-shell contact-layout">
         <div className="contact-copy">
-          <p className="eyebrow">05 / PRÓXIMA CONVERSA</p>
+          <p className="eyebrow">{c.eyebrow}</p>
           <h2>
-            Tem um desafio
+            {c.title[0]}
             <br />
-            em mente?
+            {c.title[1]}
           </h2>
-          <p>
-            Vamos conversar sobre desenvolvimento, IA aplicada e oportunidades
-            de construir algo útil.
-          </p>
+          <p>{c.intro}</p>
           <a className="contact-email" href={`mailto:${profile.email}`}>
             {profile.email} <ArrowUpRight size={20} />
           </a>
@@ -66,12 +61,12 @@ export default function Contact() {
               GitHub ↗
             </a>
           </div>
-          <p className="contact-note">SALVADOR, BAHIA · BRASIL</p>
+          <p className="contact-note">{c.location}</p>
         </div>
         <form
           onSubmit={submit}
           className="contact-form"
-          aria-label="Formulário de contato"
+          aria-label={c.form}
           aria-busy={busy}
         >
           <div className="honeypot" aria-hidden="true">
@@ -85,7 +80,7 @@ export default function Contact() {
           </div>
           <div className="form-row">
             <div>
-              <label htmlFor="name">Seu nome</label>
+              <label htmlFor="name">{c.name}</label>
               <input
                 id="name"
                 name="name"
@@ -93,12 +88,12 @@ export default function Contact() {
                 required
                 minLength={2}
                 maxLength={100}
-                placeholder="Como posso chamar você?"
+                placeholder={c.namePlaceholder}
                 disabled={busy}
               />
             </div>
             <div>
-              <label htmlFor="email">E-mail</label>
+              <label htmlFor="email">{c.email}</label>
               <input
                 id="email"
                 name="email"
@@ -106,25 +101,25 @@ export default function Contact() {
                 autoComplete="email"
                 required
                 maxLength={254}
-                placeholder="voce@exemplo.com"
+                placeholder={c.emailPlaceholder}
                 disabled={busy}
               />
             </div>
           </div>
           <div>
-            <label htmlFor="subject">Assunto</label>
+            <label htmlFor="subject">{c.subject}</label>
             <input
               id="subject"
               name="subject"
               required
               minLength={3}
               maxLength={150}
-              placeholder="Sobre o que vamos conversar?"
+              placeholder={c.subjectPlaceholder}
               disabled={busy}
             />
           </div>
           <div>
-            <label htmlFor="message">Mensagem</label>
+            <label htmlFor="message">{c.message}</label>
             <textarea
               id="message"
               name="message"
@@ -132,7 +127,7 @@ export default function Contact() {
               required
               minLength={10}
               maxLength={5000}
-              placeholder="Conte um pouco sobre sua ideia ou oportunidade."
+              placeholder={c.messagePlaceholder}
               disabled={busy}
             />
           </div>
@@ -143,17 +138,15 @@ export default function Contact() {
           >
             {busy ? (
               <>
-                <LoaderCircle size={16} /> Enviando…
+                <LoaderCircle size={16} /> {c.sending}
               </>
             ) : (
               <>
-                Enviar mensagem <ArrowUpRight size={16} />
+                {c.send} <ArrowUpRight size={16} />
               </>
             )}
           </button>
-          <p className="form-info">
-            Seu nome e e-mail serão utilizados para responder a esta mensagem.
-          </p>
+          <p className="form-info">{c.privacy}</p>
           <div aria-live="polite" aria-atomic="true">
             {feedback && (
               <p

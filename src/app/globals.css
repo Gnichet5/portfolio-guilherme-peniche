@@ -1678,3 +1678,78 @@ h2 {
     min-width: 170px;
   }
 }
+
+/* Language controls remain visible on mobile, outside the collapsible menu. */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.language-switcher {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+.language-switcher a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 32px;
+  font: 11px monospace;
+  color: var(--muted);
+  border-radius: 3px;
+}
+.language-switcher a[aria-current] {
+  background: var(--ink);
+  color: white;
+}
+.language-switcher a:hover {
+  background: var(--accent);
+  color: white;
+}
+@media (min-width: 761px) and (max-width: 1000px) {
+  .nav-shell {
+    gap: 16px;
+  }
+  .desktop-nav {
+    gap: 14px;
+  }
+  .nav-actions {
+    gap: 16px;
+  }
+  .nav-contact {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .nav-actions {
+    gap: 14px;
+  }
+  .language-switcher a {
+    min-height: 34px;
+  }
+  .project-meta {
+    line-height: 1.6;
+  }
+}
+html[lang='en'] .hero .eyebrow {
+  letter-spacing: 0.06em;
+}
+html[lang='en'] .project-visual strong {
+  font-size: 23px;
+}
+@media (max-width: 390px) {
+  html[lang='en'] .project-visual strong {
+    font-size: 19px;
+  }
+  html[lang='en'] .visual-pills {
+    gap: 5px;
+    font-size: 8px;
+  }
+  html[lang='en'] .visual-pills span {
+    padding: 4px 5px;
+  }
+}
