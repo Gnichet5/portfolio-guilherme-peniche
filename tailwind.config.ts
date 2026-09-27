@@ -15,12 +15,12 @@ const config: Config = {
         sans: ['var(--font-inter)', 'system-ui', '-apple-system', 'sans-serif'],
       },
       animation: {
-        'float': 'float 8s ease-in-out infinite',
+        float: 'float 8s ease-in-out infinite',
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
       },
       boxShadow: {
-        'soft': '0 2px 20px rgba(0, 0, 0, 0.04)',
-        'medium': '0 4px 30px rgba(0, 0, 0, 0.08)',
+        soft: '0 2px 20px rgba(0, 0, 0, 0.04)',
+        medium: '0 4px 30px rgba(0, 0, 0, 0.08)',
       },
     },
   },

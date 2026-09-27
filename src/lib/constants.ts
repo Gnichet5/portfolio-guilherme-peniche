@@ -1,3 +1,15 @@
+export const profile = {
+  name: 'Guilherme Peniche',
+  fullName: 'Guilherme Peniche Cordeiro',
+  email: 'Guipeniche@hotmail.com',
+  github: 'https://github.com/Gnichet5',
+  linkedin: 'https://www.linkedin.com/in/guilhermepeniche',
+  site: 'https://portfolio-guilherme-peniche.vercel.app',
+  article: 'https://doi.org/10.34178/jbth.v9i7.657',
+  certification:
+    'https://www.credly.com/badges/d1bad89a-1f8d-47b2-b2f5-48e40f72a971/public_url',
+}
+
 export interface Project {
   id: string
   title: string
@@ -8,143 +20,188 @@ export interface Project {
   highlights: string[]
   year: string
   featured?: boolean
-  githubUrl?: string // Adicionei este campo opcional
+  githubUrl?: string
+  articleUrl?: string
+  context: string
+  contribution: string
+  outcome: string
+  visual: 'janus' | 'fraud' | 'research' | 'finance' | 'other'
 }
 
 export const projects: Project[] = [
   {
-    id: 'siintec',
-    title: 'SIINTEC',
-    category: 'IA & Deep Reinforcement Learning',
-    description: 'Ambiente de treinamento de agentes de Deep Reinforcement Learning para otimização de processos industriais estocásticos.',
-    problem: 'Necessidade de otimizar escalabilidade e eficiência em processos industriais complexos com variáveis estocásticas.',
-    stack: ['Python', 'TensorFlow', 'Gym', 'NumPy', 'Pandas'],
-    highlights: [
-      'Construção de ambiente para desenvolvimento de artigo premiado',
-      'Otimização em processos de agentes DRL',
-      'Algoritmos de DRL customizados'
-    ],
-    year: '2025',
+    githubUrl: 'https://github.com/Gnichet5/Niche',
+    id: 'janus',
+    title: 'Janus',
+    category: 'Assistente com IA',
+    year: 'Projeto pessoal',
     featured: true,
-    githubUrl: 'https://github.com/Gnichet5/SIINTEC'
+    visual: 'janus',
+    description:
+      'Um assistente pessoal modular que conecta conversas, memória de longo prazo e ferramentas.',
+    problem:
+      'Dar continuidade às conversas e recuperar contexto relevante entre diferentes interações com um assistente.',
+    stack: ['Next.js', 'Python', 'ChromaDB', 'Gemini API'],
+    highlights: [
+      'Memória vetorial para recuperação de contexto',
+      'Integração de ferramentas via Gemini API',
+      'Interface com glassmorphism e runtime em Python',
+    ],
+    context:
+      'Projeto pessoal de IA aplicada com execução local e integração com a API Gemini.',
+    contribution:
+      'Desenvolvimento da interface em Next.js, do runtime modular em Python e da memória de longo prazo com ChromaDB. Integração de tool calling para conectar o assistente a ferramentas.',
+    outcome:
+      'Uma aplicação que reúne interface, recuperação de contexto e uso de ferramentas. A integração com Gemini depende de acesso à API; a execução local não significa operação totalmente offline.',
   },
   {
-    id: 'tcc',
-    title: 'Sistema de Detecção de Fraudes',
-    category: 'Data Science & Security',
-    description: 'Sistema inteligente de detecção de fraudes em transações de cartão de crédito usando Machine Learning.',
-    problem: 'Identificar padrões fraudulentos em tempo real com alta precisão e baixa taxa de falsos positivos.',
-    stack: ['Python', 'Scikit-learn', 'Optuna', 'Pandas', 'XGBoost', 'Matplotlib', 'Random Forest', 'SMOTE', 'LightGBM', 'FastAPI'],
-    highlights: [
-      'Otimização de hiperparâmetros com Optuna',
-      'Análise comparativa de métricas',
-      'implementação de API para detecção em tempo real'
-    ],
+    id: 'deteccao-de-fraudes',
+    title: 'Detecção de fraudes',
+    category: 'Machine learning · TCC',
     year: '2025',
     featured: true,
-    githubUrl: 'https://github.com/Gnichet5/Produto-TCC'
-  },
-    {
-    id: 'itau-corretora',
-    title: 'Itaú - Compras Programadas',
-    category: 'Full Stack & FinTech',
-    description: 'Sistema de automação de investimentos para processamento de aportes mensais, execução de ordens e rateio proporcional de ativos.',
-    problem: 'Automatizar o ciclo de compra e distribuição de ativos (Lotes Padrão e Fracionários) com base em cestas de ativos dinâmicas e saldos residuais.',
-    stack: ['.NET 8', 'C#', 'Next.js', 'TypeScript', 'MySQL', 'Docker', 'Entity Framework'],
+    visual: 'fraud',
+    description:
+      'Da análise de transações desbalanceadas a uma aplicação web para classificação de fraudes.',
+    problem:
+      'Identificar a classe minoritária de fraudes e avaliar o equilíbrio entre precisão e recall.',
+    stack: ['Python', 'LightGBM', 'Optuna', 'FastAPI', 'React'],
     highlights: [
-      'Motor de rebalanceamento automático com leitura de dados da B3 (COTAHIST)',
-      'Algoritmo de rateio proporcional para contas filhote com cálculo de IR Dedo-Duro',
-      'Dashboard financeiro em tempo real com composição de carteira (Recharts)'
+      'Comparação entre LightGBM, XGBoost e Random Forest',
+      'Balanceamento de dados com SMOTE',
+      'Pipeline integrado a uma API e interface web',
     ],
+    githubUrl: 'https://github.com/Gnichet5/Produto-TCC',
+    context:
+      'Trabalho de Conclusão de Curso em Ciência da Computação na UNIJORGE.',
+    contribution:
+      'Construção do pipeline de ciência de dados, comparação de modelos e otimização de hiperparâmetros com Optuna. Integração do modelo à API FastAPI e ao frontend React.',
+    outcome:
+      'Uma solução de ponta a ponta para explorar a classificação de transações, com foco na avaliação de precisão, recall e F1. O repositório reúne a implementação e o contexto do trabalho.',
+  },
+  {
+    id: 'siintec',
+    title: 'Otimização de agentes DRL',
+    category: 'Pesquisa premiada',
+    year: '2025 — 2026',
+    featured: true,
+    visual: 'research',
+    description:
+      'Pesquisa sobre escalabilidade e tempo de treinamento em processos industriais estocásticos.',
+    problem:
+      'Reduzir o custo computacional de treinamento de agentes em ambientes industriais de dinâmica lenta.',
+    stack: ['Python', 'TensorFlow', 'Gym', 'Optuna'],
+    highlights: [
+      'Melhor trabalho na categoria no XI SIINTEC',
+      'Estudo de vetorização, paralelismo e hiperparâmetros',
+      'Artigo publicado no JBTH em 2026',
+    ],
+    githubUrl: 'https://github.com/Gnichet5/SIINTEC',
+    articleUrl: profile.article,
+    context:
+      'Pesquisa em coautoria com Eduardo Mansur Ferreira Bittencourt Júnior e Michell Thompson Ferreira Santiago.',
+    contribution:
+      'Participação na pesquisa e no desenvolvimento do ambiente de experimentação para investigar técnicas de otimização de código aplicadas a agentes de Deep Reinforcement Learning.',
+    outcome:
+      'Reconhecido como melhor trabalho em Tecnologias Digitais e Computação de Alto Desempenho no XI SIINTEC. Publicado no Journal of Bioengineering, Technologies and Health, volume 9, número 6, páginas 559–564.',
+  },
+  {
+    id: 'compras-programadas',
+    title: 'Compras programadas',
+    category: 'Full stack · Desafio técnico',
     year: '2026',
     featured: true,
-    githubUrl: 'https://github.com/Gnichet5/SistemaFinanceiro' 
-  },
-  {
-    id: 'sicsae',
-    title: 'SICSAE - Controle de Vazão IoT',
-    category: 'IoT & Engenharia',
-    description: 'Sistema integrado de controle e monitoramento de vazão de água usando IoT com interface web em tempo real.',
-    problem: 'Controlar e monitorar remotamente a vazão de água em sistemas prediais com feedback em tempo real.',
-    stack: ['React', 'ESP32', 'WebSocket', 'Arduino', 'Node.js'],
+    visual: 'finance',
+    description:
+      'Regras de investimento, rateio de ativos e acompanhamento de carteira em uma aplicação full stack.',
+    problem:
+      'Automatizar aportes, compras e distribuição proporcional de ativos, considerando saldos residuais.',
+    stack: ['C#', '.NET 8', 'Next.js', 'MySQL', 'Docker'],
     highlights: [
-      'Integração React + ESP32',
-      'Comunicação em tempo real via WebSocket',
-      'Interface responsiva para monitoramento'
+      'Motor de compras e rateio proporcional',
+      'Dashboard do investidor e painel administrativo',
+      'Cálculo de preço médio e saldo residual',
     ],
-    year: '2025',
-    githubUrl: 'https://github.com/Gnichet5/SICSAE'
+    githubUrl: 'https://github.com/Gnichet5/SistemaFinanceiro',
+    context:
+      'Implementação para o desafio técnico de Compras Programadas da Itaú Corretora.',
+    contribution:
+      'Desenvolvimento da API em .NET 8 com Entity Framework e MySQL, das regras de compras e distribuição e das interfaces de cliente e administração em Next.js.',
+    outcome:
+      'Fluxo demonstrável de adesão, configuração de cesta, execução de compras e consulta de carteira. O repositório inclui um roteiro de execução local com dados simulados para avaliação.',
   },
-  {
-    id: 'seismic',
-    title: 'Sistema de Análise de Eventos Sísmicos',
-    category: 'Estatística & Análise de Risco',
-    description: 'Pipeline de análise estatística para modelagem e previsão de eventos sísmicos usando distribuição de Poisson.',
-    problem: 'Modelar probabilidade de ocorrência de eventos sísmicos para análise de risco em regiões vulneráveis.',
-    stack: ['Python', 'NumPy', 'SciPy', 'Matplotlib', 'Pandas'],
-    highlights: [
-      'Modelagem com distribuição de Poisson',
-        'Análise de risco sísmico',
-      'Visualização de dados geoespaciais'
-    ],
-    year: '2024',
-    githubUrl: 'https://github.com/Gnichet5/Sistema-para-previsao-de-eventos-sismicos'
-  },
-  {
-    id: 'condominio',
-    title: 'Sistema de Gestão de Condomínio',
-    category: 'Full Stack & Arquitetura',
-    description: 'Aplicação web completa para gestão de ocorrências em condomínios com arquitetura orientada a eventos.',
-    problem: 'Gerenciar ocorrências, comunicação e eventos em condomínios de forma centralizada e em tempo real.',
-    stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'WebSocket'],
-    highlights: [
-      'Arquitetura orientada a eventos',
-      'Gestão de ocorrências em tempo real',
-      'Dashboard administrativo completo'
-    ],
-    year: '2023',
-    githubUrl: 'https://github.com/vlKoda/Kodominio-Front'
-  },
-  {
-    id: 'serin',
-    title: 'SERIN - Experiência Profissional',
-    category: 'Full Stack Development',
-    description: 'Desenvolvimento e manutenção do sistema da Secretaria de Relações Institucionais da Bahia.',
-    problem: 'Manutenção e correção do sistema interno da Secretaria, implementação de novas features e otimização de processos estratégicos.',
-    stack: ['Vue.js', 'PostgreSQL', 'PHP', 'Laravel', 'Git'],
-    highlights: [
-      'Modelagem de banco de dados', 
-      'Desenvolvimento de relatórios a nível municipal e estadual', 
-      'Correção de bugs críticos em produção', 
-      'Construção de módulos para coordenadorias',
-      'Análise de requisitos e implementação de novas funcionalidades',
-    ],
-    year: '2025-2026'
-    // Não adicionei githubUrl aqui pois é um projeto profissional privado
-  }
 ]
 
-// ... (Mantenha o skillsData como estava)
-export interface SkillCategory {
-  title: string
-  skills: string[]
-}
+export const experiments = [
+  {
+    title: 'Pipeline de áudio com IA',
+    category: 'Automação',
+    description:
+      'Extração de áudio e separação de vocais e instrumentos com Python, yt-dlp, FFmpeg e Demucs.',
+    href: undefined,
+  },
+  {
+    title: 'Física de pneus de F1',
+    category: 'Simulação',
+    description:
+      'Modelagem de curvas de aderência e degradação térmica e mecânica de pneus de automobilismo.',
+    href: undefined,
+  },
+  {
+    title: 'SICSAE',
+    category: 'IoT',
+    description:
+      'Monitoramento e controle de vazão com ESP32, React e comunicação via WebSocket.',
+    href: 'https://github.com/Gnichet5/SICSAE',
+  },
+  {
+    title: 'Eventos sísmicos',
+    category: 'Análise de dados',
+    description:
+      'Modelagem estatística com distribuição de Poisson e visualização de dados para análise de risco.',
+    href: 'https://github.com/Gnichet5/Sistema-para-previsao-de-eventos-sismicos',
+  },
+  {
+    title: 'Gestão de condomínio',
+    category: 'Aplicações web',
+    description:
+      'Projeto colaborativo de gestão de ocorrências com React, Spring Boot, PostgreSQL e WebSocket.',
+    href: 'https://github.com/vlKoda/Kodominio-Front',
+  },
+]
 
-export const skillsData: SkillCategory[] = [
+export const skillsData = [
   {
-    title: 'Linguagens',
-    skills: ['Python', 'JavaScript', 'Java', 'PHP', 'C', 'TypeScript', 'SQL']
+    title: 'Sistemas e interfaces',
+    skills: [
+      'PHP / Laravel',
+      'Vue.js / Inertia.js',
+      'React / Next.js',
+      'TypeScript',
+      'C# / .NET',
+      'Material UI',
+    ],
   },
   {
-    title: 'Data & Analytics',
-    skills: ['MySQL', 'PostgreSQL', 'Apache Spark', 'Pandas', 'NumPy', 'SciPy']
+    title: 'IA e dados',
+    skills: [
+      'Python',
+      'Scikit-learn',
+      'LightGBM / XGBoost',
+      'Optuna',
+      'ChromaDB',
+      'Gemini API',
+    ],
   },
   {
-    title: 'Frameworks & Libraries',
-    skills: ['React', 'Next.js', 'Vue.js', 'Laravel', 'Spring Boot', 'TensorFlow', 'Scikit-learn']
+    title: 'Integração e entrega',
+    skills: [
+      'PostgreSQL / MySQL',
+      'FastAPI / REST',
+      'Git / GitHub',
+      'Docker',
+      'Vercel',
+      'WebSocket',
+    ],
   },
-  {
-    title: 'Tools & DevOps',
-    skills: ['Git', 'GitHub', 'Docker', 'WebSocket', 'REST APIs', 'Optuna']
-  }
 ]
